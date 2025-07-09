@@ -1,13 +1,79 @@
-%! Author = deandidion
-%! Date = 09.07.25
-
-% Preamble
-
-
 \chapter{Methodology}
+
+This chapter outlines the methodological approach taken to bridge the identified gaps between values-driven impact measurement and practical, scalable tools supported by artificial intelligence. Grounded in the context of the Public Value Hub in Leipzig, this research combines qualitative inquiry with experimental AI applications to explore how language models can support meaning-making in public innovation.
+
 \section{Research Design}
-\lipsum[8]
-\section{Data Collection}
-\lipsum[9]
-\section{Data Analysis}
-\lipsum[10]
+
+The study follows a mixed-methods, exploratory design. It combines:
+\begin{itemize}
+    \item Qualitative research, including semi-structured stakeholder interviews and participatory workshops, to identify core needs and values in public sector impact work.
+    \item Experimental development of AI-supported tools, specifically using large language models (LLMs) for natural language understanding and similarity detection.
+\end{itemize}
+
+The overall approach is informed by design science and action research traditions, aimed at producing both understanding and actionable prototypes in a real-world innovation setting.
+
+\section{Qualitative Inquiry}
+
+Interviews were conducted with public sector innovators and researchers affiliated with the Public Value Hub and the Public Value Academy. These engagements explored:
+
+\begin{itemize}
+    \item Current impact measurement challenges in innovation projects,
+    \item How concepts like "public value" are interpreted in practice,
+    \item Stakeholder needs for sense-making, learning, and transparency in evaluation.
+\end{itemize}
+
+Thematic analysis of transcripts was used to extract design criteria for the AI components — particularly around interpretability, flexibility, and the need to reflect both quantitative and narrative dimensions of impact.
+
+\section{LLM-Based Tool Development}
+
+In parallel with qualitative work, a series of proof-of-concept tools were developed using large language models (LLMs). These tools aimed to augment — not automate — value-based decision making in public innovation. Key components included:
+
+\subsection{Narrative Analysis of Pitch Decks}
+
+To support early-stage project evaluation, pitch decks from public innovation teams were analyzed using an LLM (e.g., OpenAI’s GPT-4). The model was prompted to extract:
+
+\begin{itemize}
+    \item Key impact themes,
+    \item Evidence of alignment with public value dimensions,
+    \item Indicators of potential long-term benefit or stakeholder inclusion.
+\end{itemize}
+
+Outputs were compared across cases to test for consistency and relevance, and served as a prototype for narrative-based impact reviews.
+
+\subsection{Semantic Similarity Search Across Frameworks}
+
+A corpus of over 40 different evaluation frameworks, sourced from academia, government, and practice, was compiled and pre-processed. The goal was to support innovation teams in selecting or aligning with existing approaches.
+
+Using sentence embeddings (via BERT or Sentence-Transformers), a similarity search tool was built. It allowed users to query their own impact statements or goals against this corpus to discover:
+
+\begin{itemize}
+    \item Conceptual overlaps,
+    \item Implicit values in each framework,
+    \item Alternative metrics or lenses for evaluation.
+\end{itemize}
+
+This addressed a recurring concern in interviews: that existing frameworks are often applied blindly or bureaucratically, without being interrogated for fit or value alignment.
+
+\subsection{Clustering and Thematic Grouping of Narratives}
+
+In later iterations, narrative inputs (from interviews, reports, or project documentation) were embedded and clustered to surface common themes. This offered a semi-automated approach to identifying patterns in qualitative data, potentially supporting more reflective and cross-case learning.
+
+\section{Integration into Public Value Academy Platform}
+
+To test applicability, the tools were designed to be compatible with the existing Public Value Academy digital infrastructure. This platform already supports workshops and guided reflection around public value and innovation — making it a suitable space to prototype new evaluative tools grounded in language-based AI.
+
+\section{Evaluation Strategy}
+
+Given the exploratory nature of this work, a formative evaluation approach was used. Tools were tested using anonymized project documents, workshop materials, and synthetic inputs. Early feedback was gathered through user walkthroughs and informal interviews with practitioners and researchers.
+
+Evaluation criteria included:
+
+\begin{itemize}
+    \item Usefulness and clarity of AI-generated insights,
+    \item Perceived alignment with stakeholder values and expectations,
+    \item Potential for embedding in existing impact workflows without undermining deliberation.
+\end{itemize}
+
+\section{Ethical Considerations}
+
+All qualitative research participants provided informed consent, and data was handled in accordance with GDPR and academic ethical guidelines. AI components were designed for interpretability and reflection — avoiding prescriptive or opaque outputs. This reflects the project's core principle: that computational tools should serve as aids to human judgment, not as substitutes for ethical deliberation or political accountability.
