@@ -16,10 +16,6 @@
 
 
 
-
-% preamble
-
-
 \geometry{a4paper, margin=1in}
 \setstretch{1.5}
 \pagestyle{fancy}
@@ -36,18 +32,10 @@
 
 \maketitle
 
-\begin{abstract}
-This thesis explores the application of artificial intelligence (AI) in measuring impact within public sector innovation. It is situated in a real-world context at the Public Value Hub in Leipzig and contributes to the ongoing development of the Public Value Academy software platform. The goal is to build a framework for AI-supported impact measurement that balances technical feasibility with public value alignment.
-
-
-The project incorporates the \textbf{Impact Measurement and Management (IMM)} ideas and processes provided by \textbf{Phineo}, and supporting documentation from \textbf{UnternehmerTUM}. These sources inform both the conceptual foundation and the requirements for a practical, scalable solution.
-
-Methodologically, the work combines stakeholder interviews with the implementation of AI-based components using Python. These components aim to demonstrate how intelligent systems can support transparent, data-driven evaluations in a field where social outcomes matter most.
-
-By bridging theory and application, the thesis shows how AI can responsibly support public innovation, encourage accountability, and strengthen impact-oriented practices in the public sector.
-\end{abstract}
+\input{00_abstract}
 
 \tableofcontents
+
 \newpage
 
 \input{01_introduction}
@@ -66,10 +54,8 @@ By bridging theory and application, the thesis shows how AI can responsibly supp
 
 \printbibliography
 \appendix
-\chapter{Appendix A: Interview Guide}
-\lipsum[17]
+\input{appendix_interview_guide}
 
-\chapter{Appendix B: Additional Data}
-\lipsum[18]
+\input{appendix_add_data}
 
 \end{document}
