@@ -3070,23 +3070,40 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">references.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">giin2023</bcf:citekey>
-    <bcf:citekey order="1" intorder="2">oecd2020</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">oecd2020</bcf:citekey>
+    <bcf:citekey order="1" intorder="2">giin2023</bcf:citekey>
     <bcf:citekey order="2" intorder="1">phineo2023</bcf:citekey>
     <bcf:citekey order="2" intorder="2">unternehmertum2023</bcf:citekey>
     <bcf:citekey order="3" intorder="1">russell2016artificial</bcf:citekey>
     <bcf:citekey order="3" intorder="2">marr2018data</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">ebrahim2014impact</bcf:citekey>
-    <bcf:citekey order="4" intorder="2">patton2011developmental</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">mikhaylov2018ai</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">ebrahim2014measuring</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">nicholls2012measuring</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">sun2019algorithmic</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">oecd2020publicsector</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">wirtz2020public</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">devlin2018bert</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">sun2019algorithmic</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">brown2020algorithmic</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">cornell2024</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">cornell2024</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">ebrahim2014impact</bcf:citekey>
+    <bcf:citekey order="6" intorder="2">patton2011developmental</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">mikhaylov2018ai</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">ebrahim2014measuring</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">nicholls2012measuring</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">sun2019algorithmic</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">oecd2020publicsector</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">wirtz2020public</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">devlin2018bert</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">sun2019algorithmic</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">brown2020algorithmic</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">epstein_yuthas_2014</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">moore_1995</bcf:citekey>
+    <bcf:citekey order="17" intorder="2">benington_moore_2011</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">epstein_yuthas_2014</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">fraunhofer_2023</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">fraunhofer_2023</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">moore_1995</bcf:citekey>
+    <bcf:citekey order="21" intorder="2">benington_moore_2011</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">citylab_2024</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">oecd_2023</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">eu_2024</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">huggingface_2023</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">moore_1995</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">din_2023</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">bmwi_2022</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">
