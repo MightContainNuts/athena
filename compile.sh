@@ -2,26 +2,25 @@
 
 SRC_DIR="src"
 OUT_DIR="out"
-AUX_DIR="aux"
 MAIN_TEX="00_athena.tex"
 BASE_NAME="${MAIN_TEX%.tex}"
 
 mkdir -p "$OUT_DIR"
-mkdir -p "$AUX_DIR"
 
-# Tell LaTeX to search for inputs in the src/ directory
-export TEXINPUTS=.:$SRC_DIR:
+# Go to src directory where all inputs are
+cd "$SRC_DIR" || exit 1
 
-pdflatex -output-directory="$AUX_DIR" "$SRC_DIR/$MAIN_TEX"
+# Run pdflatex (creates aux, bcf, etc)
+pdflatex "$MAIN_TEX"
 
-# Copy .bib to aux to simplify biber
-cp "$SRC_DIR/"*.bib "$AUX_DIR/" 2>/dev/null
+# Run biber (processes citations)
+biber "$BASE_NAME"
 
-# Run biber in AUX_DIR
-(cd "$AUX_DIR" && biber "$BASE_NAME")
+# Run pdflatex twice more to resolve citations and references
+pdflatex "$MAIN_TEX"
+pdflatex "$MAIN_TEX"
 
-pdflatex -output-directory="$AUX_DIR" "$SRC_DIR/$MAIN_TEX"
-pdflatex -output-directory="$AUX_DIR" "$SRC_DIR/$MAIN_TEX"
+# Move generated PDF to OUT_DIR (relative to project root)
+mv "${BASE_NAME}.pdf" "../${OUT_DIR}/"
 
-# Move PDF
-mv "$AUX_DIR/$BASE_NAME.pdf" "$OUT_DIR/"
+echo "Compilation finished, PDF is at ${OUT_DIR}/${BASE_NAME}.pdf"

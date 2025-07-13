@@ -3,6 +3,7 @@ import networkx as nx
 from pytrends.request import TrendReq
 import seaborn as sns
 import pandas as pd
+import numpy as np
 
 
 def plot_ai_awareness_uk():
@@ -119,41 +120,58 @@ def google_trend_impact():
 
 
 def fig_synthesis_gaps():
+    import numpy as np
+    import matplotlib.pyplot as plt
 
-    # Sample data (replace with your metrics, if available)
-    data = {'Approach':                                [
-            'Traditional IMM', 'Traditional IMM',
-            'Traditional IMM', 'AI-Enhanced IMM',
-            'AI-Enhanced IMM', 'AI-Enhanced IMM'],
-            'Metric':                                  [
-                    'Accuracy', 'Inclusivity',
-                    'Transparency', 'Accuracy',
-                    'Inclusivity', 'Transparency'],
-            'Score':                                   [70,
-                                                        50,
-                                                        60,
-                                                        85,
-                                                        80,
-                                                        90]}
-    df = pd.DataFrame(data)
+    categories = ["Unstructured Data Handling",
+            "Stakeholder Engagement",
+            "Normative Commitments", "AI Scalability",
+            "Policy Alignment"]
+    N = len(categories)
 
-    # Set APA-compliant style
-    sns.set_style("whitegrid")
-    plt.rcParams.update(
-        {'font.size': 10, 'font.family': 'Times New Roman'})
+    imm_scores = [2, 3, 2, 1, 3]
+    proposed_scores = [4, 5, 5, 4, 5]
 
-    # Create bar chart
-    plt.figure(figsize=(8, 5))
-    sns.barplot(x='Metric', y='Score', hue='Approach',
-                data=df, palette=['#4C78A8', '#F58518'])
-    plt.title('Comparison of IMM Approaches', fontsize=12,
-              pad=10)
-    plt.xlabel('Metric', fontsize=10)
-    plt.ylabel('Score (%)', fontsize=10)
-    plt.legend(title='Approach', loc='upper left')
-    plt.tight_layout()
+    # Calculate angle for each category on the plot
+    angles = np.linspace(0, 2 * np.pi, N,
+                         endpoint=False).tolist()
 
-    # Save for LaTeX
+    # Complete the loop for plotting by appending the first element to the end
+    imm_scores += imm_scores[:1]
+    proposed_scores += proposed_scores[:1]
+    angles += angles[:1]
+
+    fig, ax = plt.subplots(figsize=(6, 6),
+                           subplot_kw=dict(polar=True))
+
+    # Draw the outline and fill for IMM framework
+    ax.plot(angles, imm_scores, color='blue', linewidth=2,
+            label='Existing IMM')
+    ax.fill(angles, imm_scores, color='blue', alpha=0.25)
+
+    # Draw the outline and fill for proposed framework
+    ax.plot(angles, proposed_scores, color='red',
+            linewidth=2, label='Proposed Framework')
+    ax.fill(angles, proposed_scores, color='red',
+            alpha=0.25)
+
+    # Set the category labels at the appropriate angles
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(categories, fontsize=11,
+                       color='black')
+
+    # Set radial ticks
+    ax.set_yticks([1, 2, 3, 4, 5])
+    ax.set_yticklabels(['1', '2', '3', '4', '5'],
+                       fontsize=10)
+    ax.set_ylim(0, 5)
+
+    # Add title and legend
+    plt.title(
+        'Comparison of IMM Frameworks Across Key Criteria',
+        size=14, y=1.08)
+    plt.legend(loc='lower left', bbox_to_anchor=(-0.1, -0.1))
+
     plt.savefig('../fig/imm_comparison.png')
 
 if __name__ == '__main__':
