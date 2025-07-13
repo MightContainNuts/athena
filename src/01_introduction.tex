@@ -10,15 +10,32 @@ Innovation in the public sector is increasingly seen as essential for tackling c
 As governments and public institutions explore new ways to deliver services, assess policy outcomes, and engage with citizens, the question of \textbf{impact} becomes central.
 While private sector innovations often measure success through profit and efficiency, public sector innovation needs to be evaluated against broader societal value, which is a much more nuanced and multidimensional goal.
 
-Artificial Intelligence (AI) has emerged as a powerful tool for analyzing vast datasets, identifying complex patterns, and supporting evidence-based decision-making \parencite{russell2016artificial, marr2018data}.
+Artificial Intelligence (AI) has emerged as a powerful tool for analyzing vast datasets, identifying complex patterns, and supporting evidence-based decision-making~\parencite{russell2016artificial, marr2018data}.
 In the public sector, AI holds significant promise for enhancing transparency, accountability, and responsiveness.
-However, its application in \textbf{measuring the impact} of public innovation remains relatively underexplored.
+A recent study (see~\cite{cornell2024}) carried out on UK public service professionals showed that about 22\% actively use generative AI and 45\% are aware of AI tools in their area, it is still \textit{not routinely applied} to assess the impact of innovation initiatives.
 
-Traditional impact measurement frameworks—while widely used—are often too rigid for the dynamic and experimental nature of many public sector initiatives.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../fig/ai_awareness_uk}
+  \caption{Public sector professionals' attitudes toward generative AI.}
+  \label{fig:genai_survey}
+  \caption*{\textit{Source:}~\parencite{cornell2024}}
+\end{figure}
+
+
+Traditional impact measurement frameworks—while widely used—are often too rigid for the dynamic and experimental nature of many public sector initiatives (see Figure~\ref{fig:rigid_frameworks})
 These frameworks may not accommodate evolving goals, emergent outcomes, or context-specific indicators.
 Moreover, despite the variety of available frameworks, organizations tend to rely on a single predefined model, often because it is mandated or institutionally recognized.
 This one-size-fits-all approach can limit flexibility and hinder meaningful evaluation.
 There is, therefore, a growing need for more adaptive, intelligent systems that can integrate multiple perspectives and evolve alongside the initiatives they aim to assess.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../fig/rigid_use_frameworks}
+  \caption{Rigid use of single frameworks}
+  \label{fig:rigid_frameworks}
+\end{figure}
 
 This thesis is embedded in a real-world initiative from the \textbf{Public Value Hub in Leipzig} and aligns with the goals of the \textbf{Public Value Academy}, an emerging digital platform aimed at fostering innovation literacy and sustainable impact measurement in the public sector.
 
@@ -26,24 +43,24 @@ This thesis is embedded in a real-world initiative from the \textbf{Public Value
 Despite the growing use of AI across sectors, there remains a significant gap in how AI can support \textbf{meaningful, qualitative impact assessment} — particularly in the public domain.
 Existing tools often rely on rigid indicators and retrospective analysis, failing to capture complexity, learning, or long-term public value creation~\parencite{ebrahim2014impact, patton2011developmental}.
 Moreover, public sector organizations often lack the resources or knowledge to adopt AI tools effectively~\parencite{mikhaylov2018ai}.
-Furthermore, public sector organizations often lack the resources or knowledge to adopt and adapt AI tools effectively.
+Furthermore, public sector organizations often do not have access to the resources or knowledge to adopt and adapt AI tools effectively.
 
 There is a need to explore \textbf{how AI technologies can be applied to support dynamic, context-sensitive, and participatory impact measurement}, integrating frameworks such as those developed by \textbf{PHINEO} and supported by \textbf{UnternehmerTUM’s educational content}.
 
 \section{Objectives}\label{sec:objectives}
-The aim of this thesis is to develop a \textbf{conceptual and technical framework} for AI-supported impact measurement in the public sector.
-By combining theory, stakeholder insights, and prototyping with Python-based methods, the goal is to investigate how such a system could function in practice — particularly as part of the Public Value Academy’s software platform.
+The aim of this thesis is to develop a \textbf{conceptual and technical framework} for AI-supported impact measurement.
+By combining theory, stakeholder insights, and prototyping with Python-based methods, the goal is to investigate how such a system could function in practice as part of the Public Value Academy’s software platform.
 
 \section{Research Questions}\label{sec:research-questions}
 
-This thesis investigates the potential of artificial intelligence to enhance impact measurement practices in the public sector.
+This thesis investigates the potential of artificial intelligence to enhance impact measurement practices.
 Given the complexity and evolving nature of public value creation, the research is guided by the following questions:
 
 \begin{itemize}
   \item \textbf{How can artificial intelligence contribute to improved impact measurement in public sector innovation?} \\
   This question explores the capabilities of AI to support more nuanced, dynamic, and qualitative assessments beyond traditional rigid indicators.
 
-  \item \textbf{What are the challenges and opportunities of integrating AI with existing frameworks such as PHINEO’s IMM?} \\
+  \item \textbf{What are the challenges and opportunities of integrating AI with existing single frameworks} \\
   Here, the focus is on identifying barriers, enablers, and practical considerations when combining AI tools with established impact measurement methodologies.
 
   \item \textbf{What would a prototype AI-supported measurement tool look like in practice?} \\
@@ -52,10 +69,13 @@ Given the complexity and evolving nature of public value creation, the research 
 
 \section{Scope and Limitations}\label{sec:scope-and-limitations}
 
-This thesis focuses on the \textbf{conceptual design and prototype development} of an AI-supported measurement framework. The implementation is limited to \textbf{exploratory Python-based prototypes} and does not aim to develop a fully deployed system. While it draws from existing frameworks and stakeholder input, it does not include large-scale empirical validation.
+This thesis focuses on the \textbf{conceptual design and development} of an AI-supported measurement framework.
+The implementation centers on a \textbf{Python-based Minimum Viable Product (MVP)} that demonstrates core functionalities but stops short of a full-scale deployment.
+While informed by existing frameworks and stakeholder input, it does not include extensive empirical validation.
 
-The focus is on \textbf{public innovation projects} in the German context, though the framework does have broader applicability.
-
+\medskip
+\noindent\textbf{Note:} The focus is on \textbf{public innovation projects} in the German context, though the framework has broader applicability.
+\medskip
 
 \section{Methodology Overview}\label{sec:methodology-overview}
 
