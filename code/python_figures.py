@@ -1,10 +1,12 @@
 from matplotlib import pyplot as plt
+from matplotlib.patches import FancyBboxPatch
 import networkx as nx
 from pytrends.request import TrendReq
 import seaborn as sns
 import pandas as pd
 import numpy as np
-
+from graphviz import Digraph
+import os
 
 def plot_ai_awareness_uk():
     """ plot the UK awareness for AI in the public sector"""
@@ -174,5 +176,114 @@ def fig_synthesis_gaps():
 
     plt.savefig('../fig/imm_comparison.png')
 
+
+
+def clustering_grouping():
+    """methodology figures"""
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.axis('off')
+
+    steps = [("Narrative Inputs",
+              "Project proposals,\nworkshop transcripts"),
+            ("Embedding Generation",
+             "text-embedding-ada-002"),
+            ("Dimensionality Reduction", "UMAP or t-SNE"),
+            ("Clustering", "HDBSCAN"),
+            ("Cluster Interpretation",
+             "GPT-4 Summarization"), ("Thematic Outputs",
+                                      "For KPI generation,\nreporting, reflection")]
+
+    box_width = 0.8
+    box_height = 0.12
+    spacing = 0.06
+
+    y = 1.0
+    for i, (title, desc) in enumerate(steps):
+        box = FancyBboxPatch((0.1, y - box_height),
+            box_width, box_height,
+            boxstyle="round,pad=0.02", edgecolor="black",
+            facecolor="lightblue")
+        ax.add_patch(box)
+
+        text = f"{title}\n{desc}"
+        ax.text(0.5, y - box_height / 2, text, ha="center",
+                va="center", fontsize=10)
+
+        if i < len(steps) - 1:
+            ax.annotate("",
+                        xy=(0.5, y - box_height - 0.005),
+                        xytext=(0.5,
+                                y - box_height - spacing + 0.01),
+                        arrowprops=dict(arrowstyle="->",
+                                        lw=1.5))
+
+        y -= (box_height + spacing)
+
+    # Increase the y limits to add padding top and bottom
+    ax.set_ylim(y - 0.05, 1.05)
+    ax.set_xlim(0, 1)
+
+    plt.tight_layout()
+    plt.savefig("../fig/clustering_pipeline.png",
+                bbox_inches='tight')
+    plt.show()
+
+
+def langgraph_flow():
+    """methodology figures"""
+
+
+    dot = Digraph(
+        comment="LangGraph KPI Derivation Pipeline")
+    dot.attr(rankdir='LR', fontsize='10', nodesep='1.0')
+
+    # Nodes
+    dot.node('A',
+             'Input Normalization\n(Scope, Context, Constraints)',
+             shape='box', style='filled',
+             fillcolor='lightblue')
+    dot.node('B', 'SDG Mapping\n(GPT-4 Classifier)',
+             shape='box', style='filled',
+             fillcolor='lightblue')
+    dot.node('C', 'Audit Loop 1\n(SDG Justification)',
+             shape='ellipse', style='filled',
+             fillcolor='lightgray')
+    dot.node('D',
+             'Indicator Retrieval\n(Vector Similarity Search)',
+             shape='box', style='filled',
+             fillcolor='lightblue')
+    dot.node('E', 'Audit Loop 2\n(Indicator Fit Check)',
+             shape='ellipse', style='filled',
+             fillcolor='lightgray')
+    dot.node('F',
+             'KPI Generation\n(Name, Logic, Baseline)',
+             shape='box', style='filled',
+             fillcolor='lightblue')
+    dot.node('G', 'Audit Loop 3\n(KPI Quality Scoring)',
+             shape='ellipse', style='filled',
+             fillcolor='lightgray')
+    dot.node('H', 'Transparency Trace\n(Optional)',
+             shape='note', style='filled',
+             fillcolor='lightyellow')
+
+    # Edges (main flow)
+    dot.edge('A', 'B')
+    dot.edge('B', 'C')
+    dot.edge('C', 'D')
+    dot.edge('D', 'E')
+    dot.edge('E', 'F')
+    dot.edge('F', 'G')
+
+    dot.edge('G', 'F', label='Regenerate',
+             style='dashed')
+
+    dot.edge('F', 'H', style='dotted')
+
+    output_file = dot.render('../fig/langgraph_pipeline',
+                             format='png', cleanup=True)
+    abs_path = os.path.abspath(output_file)
+    print(f"✅ Rendered to absolute path: {abs_path}")
+
 if __name__ == '__main__':
-    fig_synthesis_gaps()
+    langgraph_flow()

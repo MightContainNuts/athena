@@ -1,6 +1,7 @@
 
 \documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 \usepackage{hyphenat}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -9,7 +10,6 @@
 \usepackage{fancyhdr}
 \setlength{\headheight}{15pt}
 \usepackage{setspace}
-\usepackage{lipsum}
 \usepackage{csquotes}
 \usepackage{float}
 
@@ -18,7 +18,12 @@
 
 
 
-\geometry{a4paper, margin=1in}
+\geometry{a4paper,
+        left=3cm,
+        right=3cm,
+        top=3cm,
+        bottom=3cm
+}
 \setstretch{1.5}
 \pagestyle{fancy}
 \fancyhf{}
@@ -26,16 +31,45 @@
 \lhead{Applied AI Thesis}
 \cfoot{\thepage}
 
-\title{AI-Driven Impact Measurement in Public Sector Innovation\\ \large Project Athena}
-\author{Dean Didion}
-\date{\today}
+
 \begin{document}
 
-\maketitle
+\thispagestyle{empty}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+
+    {\LARGE\bfseries IU Internationale Hochschule}\\[0.3cm]
+    \\
+
+
+    \vfill
+
+    {\Huge\bfseries Thesis}\\[0.5cm]
+    {\Large Subject:}\\[0.2cm]
+    {\LARGE\bfseries AI-Driven Impact Measurement\\ in Public Sector Innovation}
+
+    \vfill
+
+    Vorgelegt von:\\[0.2cm]
+    {\Large Dean Didion}\\
+    Matrikelnummer: 1234567\\[0.5cm]
+
+    Study Program: M.Sc. Applied Artificial Intelligence\\
+    Module: Preparation – Master for Professionals\\
+
+    \vfill
+
+    Abgabedatum: \today\\
+
+    \vspace*{1cm}
+\end{titlepage}
 
 \input{00_abstract}
 
 \tableofcontents
+\listoffigures
 
 \newpage
 
@@ -51,7 +85,11 @@
 
 \input{06_conclusion}
 
+
+
+\nocite{*}
 \printbibliography
+
 \clearpage
 
 \appendix
