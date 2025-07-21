@@ -1,4 +1,4 @@
-\chapter{Methodology}\label{ch:methodology}
+\usepackage{biblatex}\chapter{Methodology}\label{ch:methodology}
 
 This chapter outlines the methodological approach taken to bridge the identified gaps between values-driven impact measurement and practical, scalable tools supported by artificial intelligence.
 Grounded in the context of the Public Value Hub in Leipzig, this research combines qualitative inquiry with experimental AI applications to explore how language models can support meaning-making in public innovation.
@@ -46,7 +46,7 @@ Outputs were compared across cases to test for consistency and relevance, servin
 
 \subsection{Semantic Similarity Search Across Frameworks}\label{subsec:semantic-similarity-search-across-frameworks}
 
-A corpus of over 40 different evaluation frameworks, sourced from academia, government, and practice, was compiled and pre-processed.
+A corpus of over \todo{check how many frameworks we tend to implement}40~\todo{add list of frameworks to annex} different evaluation frameworks, sourced from academia, government, and practice, was compiled and pre-processed.
 The goal was to support innovation teams in selecting or aligning with existing approaches.
 
 Using sentence embeddings (via BERT or Sentence-Transformers), a similarity search tool was built to allow users to query their own impact statements or goals against this corpus to discover:
@@ -87,29 +87,54 @@ The goal was to surface latent topics reflecting common challenges, priorities, 
 \subsection{Automated KPI Derivation via LangGraph Pipelines}\label{subsec:kpi-pipeline}
 
 To explore how generative AI can support structured evaluation in public innovation, a modular pipeline was developed using the LangGraph framework — a tool for orchestrating large language models in stateful workflows.
-The objective was to generate context-sensitive, auditable Key Performance Indicators (KPIs) based on unstructured or semi-structured problem descriptions, reflecting relevant dimensions of public value and providing measurable evaluation anchors.
+The objective was to generate context-sensitive, auditable Key Performance Indicators (KPIs) based on unstructured pitch materials, reflecting relevant dimensions of public value and providing measurable evaluation anchors.
 
-The pipeline stages included:
+The pipeline integrates multiple AI-supported stages:
 
 \begin{enumerate}
-    \item \textbf{Input normalization:} Raw problem statements (e.g., from project proposals or workshop materials) were structured into a consistent format including scope, context, and constraints.
-    \item \textbf{SDG Mapping:} Using a GPT-4-based classifier, each problem was aligned to one or more Sustainable Development Goals (SDGs) through semantic understanding rather than keyword matching.
-    \item \textbf{Audit Loop 1 — SDG Justification:} A second language model performed rationale-based auditing of the SDG classification to ensure plausibility and provide explanatory feedback.
-    \item \textbf{Indicator Retrieval:} Vector similarity search (via FAISS or pgvector) was used to identify candidate indicators from a curated global indicator database relevant to the problem context.
-    \item \textbf{Audit Loop 2 — Indicator Fit:} A critic model re-evaluated indicators for semantic and practical fit, discarding weak matches and refining selection criteria.
-    \item \textbf{KPI Generation:} Tailored KPIs were proposed based on selected indicators and contextual cues, including name, definition, measurement logic, and suggested targets or baselines.
-    \item \textbf{Audit Loop 3 — KPI Quality:} KPIs were scored using a rubric assessing clarity, measurability, and context alignment.
-    \item If quality was insufficient, regeneration was triggered.
-    \item \textbf{Optional — Transparency Trace:} An explanatory trace of the KPI generation process was produced for interpretability, outlining key steps and reasoning behind outputs.
+    \item \textbf{Input Parsing and Structuring:} Raw pitch decks (PDFs) are processed using AI-based document parsing. \\Structured outputs are extracted using \texttt{LangChain}’s schema-based tools and validated via Pydantic models~\parencite{LCStructuredOutputs2025}.
+
+    \item \textbf{Problem Statement Generation:} A language model generates a concise problem statement and a summary profile based on extracted content.\\ This can also be manually edited or entered directly by the user.
+
+    \item \textbf{Metric and Leverage Point Extraction:} For each defined problem, AI identifies one or more relevant metrics and potential leverage points, guided by both domain knowledge and similarity search against curated sources.
+
+    \item \textbf{Extended Contextual Fields:} Additional structured fields enrich the problem context, including:
+    \begin{itemize}
+        \item Beneficiaries and their needs
+        \item Target customer groups
+        \item Systemic framing of the problem
+        \item Competitive landscape
+    \end{itemize}
+
+    \item \textbf{Solution Mapping:} AI summarizes the proposed solution using multiple structured prompts, including:
+    \begin{itemize}
+        \item Solution summary and visual description
+        \item USP and strengths
+        \item Impact business model
+        \item Claims, solution tree(s), and logic of change
+    \end{itemize}
+
+    \item \textbf{Impact Framing:} The pipeline captures desired outcomes and long-term impacts using the IOOI model (Inputs, Outputs, Outcomes, Impact), supporting both existing impact data and forward-looking impact goals~\parencite{IOOIFrameworkRef2023}.
+
+    \item \textbf{SDG Alignment:} The structured problem and solution descriptions are semantically mapped to relevant Sustainable Development Goals (SDGs) using a GPT-4 classifier~\parencite{UNSDG2024}.
+
+    \item \textbf{Indicator Retrieval and Critique:} A vector similarity search (via pgvector) identifies candidate indicators from a curated indicator database~\parencite{LCSimilaritySearch2025}.
+    \item These are passed through a critique model to assess fit and refine relevance.
+
+    \item \textbf{KPI Generation:} KPIs are proposed for each problem-solution pair, incorporating name, measurement logic, targets, and context sensitivity. Each KPI is evaluated using a rubric assessing clarity, measurability, and alignment.
+
+    \item \textbf{Audit and Regeneration:} If the KPI quality score falls below a set threshold (e.g., $>$80\%), the generation cycle is repeated~\parencite{LCGraphBuilding2025}.
+
+    \item \textbf{Transparency Trace:} The full decision path and rationale for KPI generation are captured using explainable AI tooling (e.g., SHAP)~\parencite{ShapXAI22025}, enabling transparency in impact evaluation.
 \end{enumerate}
 
-The LangGraph framework was chosen for its support of branching logic, audit loops, and modular AI-driven tasks — enabling reflexive, explainable tool development rather than rigid automation.
-The pipeline was tested with synthetic and anonymized project descriptions from public innovation settings, demonstrating potential to offer structured, explainable KPIs aligned with broader value narratives.
+The pipeline was tested using anonymized or synthetic pitch materials from early-stage social innovation projects.
+The modular design enables flexible adaptation across sectors, while maintaining a transparent and reflexive architecture appropriate for value-driven impact work.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{../fig/langgraph_pipeline}
-    \caption{Langgraph pipeline}
+    \includegraphics[height = 0.9\textheight]{../fig/langgraph_pipeline}
+    \caption{LangGraph pipeline for automated KPI derivation and impact structuring}
     \label{fig:langgraph-pipeline}
 \end{figure}
 
@@ -134,6 +159,17 @@ Evaluation criteria included:
 
 \section{Ethical Considerations}\label{sec:ethical-considerations}
 
-All qualitative research participants provided informed consent, and data was handled in accordance with GDPR and academic ethical guidelines.
-AI components were designed to promote interpretability and reflection — avoiding prescriptive or opaque outputs.
-This reflects the project's core principle that computational tools serve as aids to human judgment, not substitutes for ethical deliberation or political accountability.
+All qualitative research participants provided informed consent, and data was handled in accordance with GDPR and institutional ethical guidelines.
+
+To ensure responsible use of AI, all computational components were designed to support transparency, interpretability, and human oversight.
+This was implemented through a combination of justification-based outputs, audit loops, and optional explainability tools.
+
+Justification generation was embedded in key stages of the LangGraph pipeline — particularly during SDG classification, indicator selection, and KPI generation — allowing models to provide rationale for their outputs.
+These justifications served both for internal audit loops and as prompts for human-in-the-loop (HITL) intervention, especially during early-stage deployment~\parencite{ribeiro2016should, Holzinger2016HITL}.
+
+This approach draws from Explainable AI (XAI) principles, aiming to make opaque model reasoning more transparent to users and stakeholders~\parencite{dwivedi2023explainable}.
+Where appropriate, explainability methods such as SHAP were used to surface feature-level insights and support model interpretation~\parencite{lundberg2017shap}.
+
+These measures align with policy frameworks such as the EU AI Act and OECD AI Principles, which call for trustworthy AI systems that preserve human agency, ensure traceability, and enable contestability of automated decisions~\parencite{euai2023, oecd2022ai}.
+
+In summary, this setup reflects the project's core principle: AI should augment — not replace — human judgment in complex, value-laden public sector contexts.

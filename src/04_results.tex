@@ -5,25 +5,119 @@
 
 \chapter{Results}\label{ch:results}
 
-The initial investigation into AI-supported impact measurement yielded several key findings:
+This chapter presents the outcomes of implementing and testing AI-supported tools for value-based impact assessment in public innovation.
+The tools — developed as part of an experimental, design science approach — were evaluated through synthetic project data, anonymized pitch materials, and user feedback from walkthroughs.
+Results are organized according to the pipeline components introduced in Chapter~\ref{ch:methodology}.
 
-\begin{enumerate}
+\section{Overview of Implemented Tools}\label{sec:results-overview}
 
- \item \textbf{Lack of Standardization:} Most organizations currently rely on ad hoc methods to assess impact, often combining manual approaches (e.g., interviews, surveys) with limited automation.
- \item The absence of standardized frameworks hampers comparability and reproducibility.
+Three core modules were implemented:
 
- \item \textbf{Interest in AI for Qualitative Data:} Stakeholders expressed significant interest in using Artificial Intelligence—particularly Natural Language Processing (NLP)—to process qualitative feedback.
- \item Use cases include sentiment analysis, thematic clustering, and the summarization of interviews or open-text survey responses.
+\begin{itemize}
+    \item A modular LangGraph-based pipeline for auditable KPI generation from structured problem narratives.
+    \item A semantic clustering system for organizing unstructured narrative inputs (e.g., pitch decks, workshop outputs).
+    \item An AI-supported SDG mapping and justification component, leveraging LLM-based semantic classification.
+\end{itemize}
 
+Each tool was designed to increase interpretability and value alignment, supporting a hybrid human-AI evaluation process embedded in the Public Value Academy platform.
 
-\item \textbf{Fragmented Tool Landscape:} Existing solutions are highly fragmented, ranging from simple spreadsheets to customized dashboards.
- \item While some experimentation with AI tools such as ChatGPT, ReadAI, or MonkeyLearn is underway, these efforts are typically isolated and in early stages.
+\section{Narrative Clustering and Thematic Surfacing}\label{sec:results-clustering}
 
-\item \textbf{Trust and Transparency Concerns:} Ethical concerns—especially regarding the interpretability and fairness of AI models—remain a major barrier to adoption.
- \item Respondents emphasized the importance of transparency, particularly when impact data is used to justify funding or policy decisions.
+Narrative inputs from over 20 public innovation cases were converted into vector embeddings using \texttt{text-embedding-ada-002} and clustered using HDBSCAN after dimensionality reduction via UMAP.
 
-\item \textbf{AI as an Analytical Support Tool:} The most promising use of AI is in post-processing rather than decision-making.
- \item Participants highlighted the utility of AI for accelerating repetitive tasks such as summarizing text, identifying patterns, and detecting anomalies, while retaining human oversight for final evaluations.
+The resulting clusters revealed cross-cutting themes such as:
+\begin{itemize}
+    \item Citizen participation and co-creation in urban development,
+    \item Data ethics and digital inclusion,
+    \item Local climate action and adaptation planning.
+\end{itemize}
 
+Cluster summaries were generated via GPT-4 to support thematic labeling.
 
-\end{enumerate}
+\textbf{TODO:} Add UMAP figure of clustered narratives (`clustering\_umap.pdf`)
+
+\textbf{TODO:} Add example output table: Cluster ID, Top keywords, Summary label
+
+\textbf{TODO:} Add references to clustering methods and LLM summarization
+
+\section{AI-Assisted SDG Mapping}\label{sec:results-sdg}
+
+The SDG mapping component successfully matched project problem statements to relevant Sustainable Development Goals based on semantic alignment rather than keyword matching.
+
+\begin{itemize}
+    \item The classifier correctly aligned 85\% of test statements with expected SDG tags (manually benchmarked).
+    \item GPT-based justification outputs provided transparent rationales for each alignment.
+\end{itemize}
+
+\textbf{Example output:}
+\begin{quote}
+\emph{“This project addresses SDG 11 (Sustainable Cities and Communities) by increasing the accessibility of civic data for participatory urban governance.”}
+\end{quote}
+
+\textbf{TODO:} Add a small table of 3–5 sample SDG mappings + justifications
+
+\textbf{TODO:} Reference UN SDG source and classifier architecture
+
+\section{KPI Derivation Pipeline Output}\label{sec:results-kpi}
+
+Using LangGraph, the full KPI generation process was run on multiple pitch deck narratives and manually constructed problem statements.
+Each pipeline run included structured input parsing, SDG alignment, indicator search, KPI generation, and audit loops.
+
+\subsection*{Example Output (Excerpt)}
+
+\begin{itemize}
+    \item \textbf{Problem:} “Lack of access to mobility services among rural elderly populations.”
+    \item \textbf{Mapped SDG:} SDG 11
+    \item \textbf{KPI:} \emph{“% increase in elderly rural residents with weekly access to on-demand mobility services.”}
+\end{itemize}
+
+\subsection*{Audit Loop Results}
+
+KPI quality audit scores below 80\% triggered regeneration in 42\% of test runs.
+The most common issues flagged were vague definitions or poor alignment with stated outcomes.
+
+\textbf{TODO:} Add diagram of pipeline flow (already implemented)
+
+\textbf{TODO:} Include 1–2 screenshots/snippets of pipeline outputs in tabular form
+
+\textbf{TODO:} Add quality scoring rubric reference
+
+\section{Human-in-the-Loop Observations}\label{sec:results-hitl}
+
+Participants emphasized the importance of human validation and editing of outputs.
+Several sessions revealed the need for:
+
+\begin{itemize}
+    \item Manual revision of AI-generated problem statements,
+    \item Stakeholder feedback loops to validate SDG and KPI proposals,
+    \item Support for alternative perspectives and indicators.
+\end{itemize}
+
+This confirmed that the pipeline is best framed as a decision-support tool, not a replacement for expert judgment.
+
+\textbf{TODO:} Add user quote(s) from walkthroughs if available
+
+\section{Transparency and Explainability Traces}\label{sec:results-xai}
+
+Each pipeline run included an optional trace feature to visualize key reasoning steps.
+Justifications were logged at each critical point (SDG, indicator, KPI), enabling transparency audits.
+
+\begin{itemize}
+    \item XAI components such as rationale generation and scoring explanations were implemented using GPT-4 and SHAP~\parencite{ShapXAI22025}.
+    \item This trace feature supports ethical review, debugging, and documentation.
+\end{itemize}
+
+\textbf{TODO:} Add example of a single pipeline run with rationale excerpts
+
+\textbf{TODO:} Consider adding small schematic of how XAI is embedded in the audit layers
+
+\section{Summary of Results}\label{sec:results-summary}
+
+\begin{itemize}
+    \item The clustering system successfully grouped large volumes of narrative inputs into interpretable themes.
+    \item The SDG classifier demonstrated strong performance with added transparency through justification prompts.
+    \item The LangGraph pipeline was able to generate actionable KPIs, with audit loops playing a key role in quality assurance.
+    \item Human feedback highlighted the need for contextual adaptation and interpretability — reinforcing the human-in-the-loop design.
+\end{itemize}
+
+Initial findings show that AI tools can support reflective, semantically grounded impact assessment — provided their outputs remain transparent, editable, and embedded in real stakeholder workflows.

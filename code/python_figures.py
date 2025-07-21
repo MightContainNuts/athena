@@ -231,14 +231,15 @@ def clustering_grouping():
 
 
 def langgraph_flow():
-    """methodology figures"""
-
+    """LangGraph KPI Derivation Pipeline with conditional audit loops"""
 
     dot = Digraph(
         comment="LangGraph KPI Derivation Pipeline")
-    dot.attr(rankdir='LR', fontsize='10', nodesep='1.0')
+    dot.attr(rankdir='TB', fontsize='8', ranksep='0.3',
+             nodesep='0.2')
+    dot.graph_attr.update(margin='0.5', size='8,10!')
 
-    # Nodes
+    # Main nodes
     dot.node('A',
              'Input Normalization\n(Scope, Context, Constraints)',
              shape='box', style='filled',
@@ -246,44 +247,63 @@ def langgraph_flow():
     dot.node('B', 'SDG Mapping\n(GPT-4 Classifier)',
              shape='box', style='filled',
              fillcolor='lightblue')
-    dot.node('C', 'Audit Loop 1\n(SDG Justification)',
+    dot.node('C', 'Audit: SDG Justification',
              shape='ellipse', style='filled',
              fillcolor='lightgray')
+    dot.node('C_decide', 'Pass Justification?',
+             shape='diamond', style='filled',
+             fillcolor='white')
+
     dot.node('D',
              'Indicator Retrieval\n(Vector Similarity Search)',
              shape='box', style='filled',
              fillcolor='lightblue')
-    dot.node('E', 'Audit Loop 2\n(Indicator Fit Check)',
+    dot.node('E', 'Audit: Indicator Fit Check',
              shape='ellipse', style='filled',
              fillcolor='lightgray')
-    dot.node('F',
-             'KPI Generation\n(Name, Logic, Baseline)',
+    dot.node('E_decide', 'Pass Fit Check?', shape='diamond',
+             style='filled', fillcolor='white')
+
+    dot.node('F', 'KPI Generation\n(Name, Logic, Baseline)',
              shape='box', style='filled',
              fillcolor='lightblue')
-    dot.node('G', 'Audit Loop 3\n(KPI Quality Scoring)',
+    dot.node('G', 'Audit: KPI Quality Scoring',
              shape='ellipse', style='filled',
              fillcolor='lightgray')
+    dot.node('G_decide', 'Pass Quality? (>,80%)',
+             shape='diamond', style='filled',
+             fillcolor='white')
+
     dot.node('H', 'Transparency Trace\n(Optional)',
              shape='note', style='filled',
              fillcolor='lightyellow')
 
-    # Edges (main flow)
+    # Flow edges
     dot.edge('A', 'B')
     dot.edge('B', 'C')
-    dot.edge('C', 'D')
+    dot.edge('C', 'C_decide')
+    dot.edge('C_decide', 'D', label='Yes', color='green')
+    dot.edge('C_decide', 'B', label='No', style='dashed',
+             color='red')
+
     dot.edge('D', 'E')
-    dot.edge('E', 'F')
+    dot.edge('E', 'E_decide')
+    dot.edge('E_decide', 'F', label='Yes', color='green')
+    dot.edge('E_decide', 'D', label='No', style='dashed',
+             color='red')
+
     dot.edge('F', 'G')
+    dot.edge('G', 'G_decide')
+    dot.edge('G_decide', 'H', label='Yes', color='green')
+    dot.edge('G_decide', 'F', label='No', style='dashed',
+             color='red')
 
-    dot.edge('G', 'F', label='Regenerate',
-             style='dashed')
-
-    dot.edge('F', 'H', style='dotted')
-
-    output_file = dot.render('../fig/langgraph_pipeline',
-                             format='png', cleanup=True)
+    # Output
+    output_file = dot.render(
+        '../fig/langgraph_pipeline', format='png',
+        cleanup=True)
     abs_path = os.path.abspath(output_file)
-    print(f"✅ Rendered to absolute path: {abs_path}")
+    print(f"✅ Rendered corrected diagram to: {abs_path}")
 
 if __name__ == '__main__':
     langgraph_flow()
