@@ -1,0 +1,111 @@
+\chapter{Demonstration and Evaluation}\label{ch:demonstration-evaluation}
+
+This chapter presents the \textbf{demonstration and evaluation} of the AI-supported IMM artefact developed in Chapter~\ref{ch:artefact-development}. 
+The framework was tested using synthetic project data, anonymized pitch materials, and stakeholder walkthroughs, to assess its feasibility, transparency, comparability, and usability.
+
+\section{Overview of Demonstration}\label{sec:demo-overview}
+
+The artefact was applied in the context of \textit{Inluma} to demonstrate its functionality:
+
+\begin{itemize}
+    \item \textbf{Semantic clustering}: grouping unstructured narrative inputs into interpretable themes.
+    \item \textbf{KPI derivation pipeline}: generating auditable KPIs from structured problem statements.
+    \item \textbf{SDG mapping}: aligning project objectives with Sustainable Development Goals and providing transparent justifications.
+\end{itemize}
+
+The demonstration highlights the artefact's capacity to augment human judgment while remaining \textbf{transparent and interpretable}.
+
+\section{Narrative Clustering Results}\label{sec:results-clustering}
+
+Narratives from over 20 public innovation cases were embedded using \texttt{text-embedding-ada-002}, reduced via UMAP, and clustered with HDBSCAN.
+
+\subsection*{Key Observations}
+
+\begin{itemize}
+    \item Clusters revealed cross-cutting themes such as citizen participation, data ethics, and local climate action.  
+    \item GPT-4 summarization provided interpretable labels for stakeholders.  
+    \item Clustering facilitated structured overviews of diverse inputs, supporting reflection and discussion.  
+\end{itemize}
+
+\textbf{TODO:} Include UMAP figure and example cluster summary table.
+
+\section{SDG Mapping Results}\label{sec:results-sdg}
+
+The SDG mapping component semantically aligned problem statements with relevant goals:
+
+\begin{itemize}
+    \item Classifier accuracy: 85\% alignment with expected SDG tags (manual benchmark).  
+    \item GPT-based justifications enhanced transparency and trust.  
+\end{itemize}
+
+\textbf{Example:} 
+\emph{“This project addresses SDG 11 (Sustainable Cities and Communities) by increasing civic data accessibility for participatory urban governance.”}
+
+\textbf{TODO:} Add table with sample SDG mappings and justifications.
+
+\section{KPI Derivation Pipeline Results}\label{sec:results-kpi}
+
+The LangGraph pipeline was applied to multiple pitch decks and synthetic problem statements.
+
+\subsection*{Example Output}
+
+\begin{itemize}
+    \item \textbf{Problem:} “Limited mobility access for rural elderly populations.”  
+    \item \textbf{Mapped SDG:} SDG 11  
+    \item \textbf{KPI:} \emph{“Percentage increase of rural elderly residents with weekly access to on-demand mobility services.”}
+\end{itemize}
+
+\subsection*{Audit Loop Observations}
+
+\begin{itemize}
+    \item KPIs with quality scores below 80\% were regenerated in 42\% of test runs.  
+    \item Common issues: vague definitions, misalignment with outcomes.  
+    \item Audit loops proved essential for maintaining consistency and alignment.  
+\end{itemize}
+
+\textbf{TODO:} Include pipeline flow diagram and example output tables.
+
+\section{Human-in-the-Loop Feedback}\label{sec:results-hitl}
+
+Stakeholder walkthroughs confirmed the importance of \textbf{human validation}:
+
+\begin{itemize}
+    \item Manual editing of AI-generated problem statements was often needed.  
+    \item Feedback loops validated SDG and KPI proposals.  
+    \item Alternative perspectives were incorporated through iterative discussion.  
+\end{itemize}
+
+This reinforces the artefact’s design principle: AI as a \textbf{decision-support tool}, not a replacement for human expertise.
+
+\section{Transparency and Explainability}\label{sec:results-xai}
+
+Each pipeline run logged \textbf{decision paths and rationales}, supporting audits and ethical review:
+
+\begin{itemize}
+    \item Justifications captured at SDG mapping, indicator selection, and KPI generation.  
+    \item SHAP and GPT-based explanations provided interpretable insights.  
+    \item Supports accountability and trust in AI-supported evaluation processes.  
+\end{itemize}
+
+\textbf{TODO:} Include example trace schematic.
+
+\section{Evaluation Summary}\label{sec:results-summary}
+
+The artefact was evaluated against pre-defined DSR criteria:
+
+\begin{itemize}
+    \item \textbf{Feasibility:} All modules operated successfully on test datasets.  
+    \item \textbf{Transparency:} Justifications and audit loops increased interpretability.  
+    \item \textbf{Comparability:} Semantic clustering and KPI derivation facilitated consistent evaluation across cases.  
+    \item \textbf{Usability:} Stakeholders found outputs informative, with manageable human-in-the-loop requirements.  
+\end{itemize}
+
+\textbf{Key insights:}  
+
+\begin{itemize}
+    \item AI tools can support reflective, value-aligned impact assessment.  
+    \item Human-in-the-loop mechanisms are essential for interpretability and trust.  
+    \item Modular design allows adaptation to different data sources and contexts.  
+\end{itemize}
+
+The next chapter discusses these results in the context of existing frameworks, reflecting on theoretical and practical implications.

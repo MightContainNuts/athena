@@ -18,54 +18,57 @@
 \addbibresource{references.bib}
 
 
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{titlesec}
 
-\geometry{a4paper,
-        left=3cm,
-        right=3cm,
-        top=3cm,
-        bottom=3cm
-}
-\setstretch{1.5}
-\pagestyle{fancy}
-\fancyhf{}
-\rhead{Project Athena}
-\lhead{Applied AI Thesis}
-\cfoot{\thepage}
+% ===========================
+% Layout according to IU specs
+% ===========================
+\geometry{a4paper, top=2cm, bottom=2cm, left=2cm, right=2cm}
+\setstretch{1.5} % Line spacing
 
+% Font sizes: 11pt text, 12pt headings
+\renewcommand\normalsize{\fontsize{11}{13.6}\selectfont}
+\renewcommand\footnotesize{\fontsize{10}{12}\selectfont}
 
+% Paragraphs: 6pt spacing after, no indent
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
+% Numbering: max. 3 levels
+\setcounter{secnumdepth}{3}
+
+% Heading formatting
+\titleformat{\section}{\fontsize{12}{14}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\fontsize{12}{14}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\fontsize{12}{14}\itshape}{\thesubsubsection}{1em}{}
+
+% ===========================
+% Title Page
+% ===========================
 \begin{document}
-
-\thispagestyle{empty}
-
 \begin{titlepage}
     \centering
-    \vspace*{1cm}
 
-    {\LARGE\bfseries IU Internationale Hochschule}\\[0.3cm]
-    \\
+    {\LARGE Exposé for the Master's Aptitude Examination \par}
+    \vspace{0.5cm}
+    {\Large AI-Driven Impact Measurement and Management: \par
+    Design and Evaluation of a Framework using the Inluma Case \par
+    under the Design Science Research Methodology \par}
+    \vspace{1.5cm}
 
+    {\large Dean Didion \par}
+    Matriculation Number: IU14148408 \par
+    \vspace{1.5cm}
 
+    Study Program: M.Sc. Applied Artificial Intelligence \par
+    Module: Preparation – Master for Professionals \par
     \vfill
 
-    {\Huge\bfseries Thesis}\\[0.5cm]
-    {\Large Subject:}\\[0.2cm]
-    {\LARGE\bfseries AI-Driven Impact Measurement\\ in Public Sector Innovation}
-
-    \vfill
-
-    Vorgelegt von:\\[0.2cm]
-    {\Large Dean Didion}\\
-    Matrikelnummer: 1234567\\[0.5cm]
-
-    Study Program: M.Sc. Applied Artificial Intelligence\\
-    Module: Preparation – Master for Professionals\\
-
-    \vfill
-
-    Abgabedatum: \today\\
-
-    \vspace*{1cm}
+    Date: \today
 \end{titlepage}
+
 
 \input{00_abstract}
 
@@ -76,13 +79,13 @@
 
 \input{01_introduction}
 
-\input{02_literature_review}
+\input{02_theoretical_background}
 
 \input{03_methodology}
 
-\input{04_results}
+\input{04_artefact_dev}
 
-\input{05_discussion}
+\input{05_demo_eval}
 
 \input{06_conclusion}
 
