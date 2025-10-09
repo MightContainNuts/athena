@@ -14,7 +14,7 @@
 *.snm
 
 # PDF output
-*.pdf
+
 
 # Mac and editor files
 .DS_Store
