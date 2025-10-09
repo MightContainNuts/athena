@@ -112,6 +112,53 @@ These clusters serve as a foundation for reflection and learning rather than aut
 An experimental module applies the \texttt{LangGraph} orchestration framework to derive candidate indicators and measurable outcomes from qualitative inputs.
 This step illustrates how AI can support, rather than replace, expert-driven evaluation design.
 
+\subsection{Text Analysis and Topic Modeling Pipeline}\label{subsec:text-analysis-pipeline}
+
+To derive thematic insights and improve indicator recommendations, narrative inputs (such as problem statements, vision, and impact descriptions) are processed through a structured text analysis workflow.
+This enables clustering of projects with similar focus areas and enhances automated KPI suggestions.
+
+\begin{itemize}
+    \item \textbf{Preprocessing:} Tokenization, stopword removal, and lemmatization prepare textual data for analysis.
+    \item \textbf{Vectorization:} Both TF–IDF and Bag-of-Words representations are computed for interpretability.
+    \item \textbf{Topic Modeling (LDA):} Latent Dirichlet Allocation identifies thematic structures within project narratives. \textbf{TODO: Train model and extract representative topics per cluster.}
+    \item \textbf{Clustering:} Projects are grouped based on topic distributions or semantic embeddings to reveal recurring social and environmental domains.
+    \item \textbf{Similarity Search:} Cosine similarity enables retrieval of similar projects or indicators, supporting recommendation logic.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={rectangle, rounded corners, draw=black, fill=gray!10, minimum width=9cm, minimum height=1cm, align=center},
+    arrow/.style={->, thick}
+]
+
+% Nodes
+\node[box] (input) {Narrative Inputs from Project Profiles};
+\node[box, below=of input] (preprocess) {Text Preprocessing \\ (Tokenization, Lemmatization, Stopword Removal)};
+\node[box, below=of preprocess] (vector) {Vectorization \\ (TF–IDF / Bag-of-Words)};
+\node[box, below=of vector] (lda) {Topic Modeling (LDA) \\ \textbf{TODO: Extract top topics \& keywords}};
+\node[box, below=of lda] (cluster) {Semantic Clustering of Projects};
+\node[box, below=of cluster] (similarity) {Cosine Similarity Search on Embeddings};
+\node[box, below=of similarity] (kpi) {Indicator Recommendation \\ (Top-K KPIs \& SDG Alignment)};
+
+% Arrows
+\draw[arrow] (input) -- (preprocess);
+\draw[arrow] (preprocess) -- (vector);
+\draw[arrow] (vector) -- (lda);
+\draw[arrow] (lda) -- (cluster);
+\draw[arrow] (cluster) -- (similarity);
+\draw[arrow] (similarity) -- (kpi);
+
+\end{tikzpicture}
+\caption{Vertical Workflow for Text Analysis, Topic Modeling, and Indicator Recommendation}
+\label{fig:text-analysis-pipeline}
+\end{figure}
+
+This pipeline not only structures unstructured text but also provides a data-driven foundation for impact assessment by identifying recurring themes and mapping them to relevant KPIs.
+
+
+
 
 % ===========================
 % SECTION 3.5

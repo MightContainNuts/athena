@@ -3,32 +3,157 @@
 
 \chapter{Additional Data}\label{ch:additional-data}
 
-This appendix contains supplementary data and materials that support the findings and analyses presented in the main chapters of the thesis.
+This appendix contains supplementary materials that support the AI-supported IMM artefact described in Chapters~\ref{ch:artefact-development} and \ref{ch:results}. 
+It includes raw project profiles, generated KPIs, audit logs, and dashboard mock-ups.
 
-\section*{Data Tables}
+\section*{1. Example Project Profiles}
 
+Below are anonymized structured outputs from the \texttt{Profile} Pydantic model for two sample projects. 
+These illustrate the type of information extracted from pitch decks and structured for KPI generation.
 
+\begin{verbatim}
+{
+  "startup_name": "GreenFields AgTech",
+  "legal_form": "GmbH",
+  "founder_first_name": "Anna",
+  "founder_last_name": "Schmidt",
+  "founder_gender": "female",
+  "startup_email": "anna@greenfields.com",
+  "startup_phone": "+49 123 456 789",
+  "startup_city": "Berlin",
+  "startup_country": "Germany",
+  "startup_postcode": "10115",
+  "website": "https://greenfields.com",
+  "project_beginning": "2023-03-01",
+  "turnover": 250000,
+  "profit": 30000,
+  "employers": 5,
+  "problem": "Excessive synthetic nitrogen usage in small farms",
+  "vision": "Reduce fertilizer use while maintaining yields",
+  "mission": "Develop sustainable precision farming tools",
+  "solution": "IoT soil sensors with AI-driven recommendations",
+  "social_impact": "Promote sustainable agriculture and environmental health",
+  "reason": "Reduce environmental pollution and farmer costs",
+  "value_1": "Sustainability",
+  "value_2": "Efficiency",
+  "value_3": "Innovation",
+  "target_group": "Smallholder farmers in Europe"
+}
+\end{verbatim}
 
-\vspace{2em}
+\textbf{TODO:} Add 1–2 more anonymized profiles illustrating diverse sectors and project types.
 
-\section*{Additional Figures}
+---
 
+\section*{2. Generated KPIs / Indicators}
 
+Example KPI generated from the above project profile:
 
-\vspace{2em}
+\begin{verbatim}
+{
+  "category": "Agrar & Agrar Tech",
+  "sub_category": "Sustainable Inputs",
+  "goal": ["Reduce synthetic nitrogen application rate by 20 percent per hectare within 12 months among users"],
+  "short_term_goal_1": "Users reduce synthetic nitrogen rate within 6 months",
+  "short_term_indicator_1": "Share of users who reduced synthetic nitrogen rate compared to last season",
+  "short_term_question_1": "Did you reduce your synthetic nitrogen application rate per hectare this season compared to last season?",
+  "type_of_short_term_question_1": "single_choice",
+  "answer_options_short_term_question_1": ["Yes", "No", "Not applicable"],
+  "measurement_method_short_term_question_1": "Self-reported comparison to baseline season recorded at onboarding",
+  "unit_method_short_term_question_1": "percent of users",
+  "justification_method_short_term_question_1": "User-level rate reduction is an early signal of improved nutrient efficiency",
+  "source_method_short_term_question_1": "IRIS+ Agrochemical Use intensity; SDG 2.4",
+  "long_term_goal_1": ["Users sustain a 20 percent lower synthetic nitrogen rate after 3 seasons"],
+  "long_term_indicator_1": ["Kilograms of synthetic nitrogen applied per hectare per season"],
+  "long_term_question_1": "How many kilograms of synthetic nitrogen per hectare did you apply this season?",
+  "type_of_long_term_question_1": "open_question",
+  "measurement_method_long_term_question_1": "Farmer input logs normalized by field area",
+  "unit_method_long_term_question_1": "kg N/ha",
+  "justification_method_long_term_question_1": "Rate per area directly measures fertilizer pressure with strong links to cost and emissions",
+  "source_method_long_term_question_1": "IRIS+ Agrochemical Use; FAO fertilizer statistics; SDG 12.4"
+}
+\end{verbatim}
 
-\section*{Raw Data Excerpts}
+\textbf{TODO:} Include 2–3 more KPIs per category to show coverage and variety.  
+\textbf{TODO:} Add example of secondary goal handling when multiple outcomes are detected.
 
-\noindent Below are anonymized excerpts from the interview transcripts used for qualitative analysis:
+---
+
+\section*{3. Human-in-the-Loop Audit Logs}
 
 \begin{quote}
-    \textit{"One of the biggest barriers is trust — people often question how AI reaches its conclusions."}
+\textit{"Short-term indicator was slightly ambiguous; refined wording to ensure farmers understand units and target."}
 \end{quote}
 
 \begin{quote}
-    \textit{"Having a clear framework aligned with public values ensures the tool's relevance and acceptance."}
+\textit{"SDG mapping verified: matches SDG 2.4 (Zero Hunger) and SDG 12.4 (Responsible Consumption)"} 
 \end{quote}
 
-\vspace{2em}
+\textbf{TODO:} Include anonymized full audit log table showing KPI revisions, reviewer comments, and XAI trace outputs.
 
-% You can add more tables, fig, or text here as needed.
+---
+
+\section*{4. Dashboard Mock-Up}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../fig/dashboard_mockup}
+    \caption{Prototype Impact Dashboard Showing KPI Performance and Trends}
+    \label{fig:dashboard-mockup}
+\end{figure}
+
+\textbf{TODO:} Populate dashboard with real or simulated KPI metrics.  
+\textbf{TODO:} Add labels for public value dimensions, project comparisons, and trends.
+
+---
+
+\section*{5. Data Collection Instruments}
+
+Example survey question derived from KPI:
+
+\begin{quote}
+\emph{Short-term KPI: Share of users who reduced synthetic nitrogen rate}  
+\textbf{Question:} Did you reduce your synthetic nitrogen application rate per hectare this season compared to last season?  
+\textbf{Type:} Single choice  
+\textbf{Answer Options:} Yes / No / Not applicable  
+\textbf{Measurement Method:} Self-reported comparison to baseline season recorded at onboarding
+\end{quote}
+
+\textbf{TODO:} Add example long-term KPI survey question.  
+\textbf{TODO:} Include one qualitative open-ended question from mission/vision evaluation.
+
+---
+
+\section*{6. Raw Analysis Outputs}
+
+\textbf{TODO:} Include anonymized sample outputs of KPI aggregation, summary statistics, or thematic analysis of qualitative data.  
+\textbf{TODO:} Add visualizations like histograms or word clouds if available.
+
+---
+
+\section*{7. Ethical and Governance Documentation}
+
+\begin{itemize}
+    \item GDPR-compliant consent form template \textbf{TODO: add redacted form}.
+    \item Notes on anonymization and secure storage \textbf{TODO: describe procedure}.
+    \item Guidelines for human-in-the-loop oversight \textbf{TODO: include short description or table}.
+\end{itemize}
+
+---
+
+\section*{8. Glossary and Abbreviations}
+
+\begin{itemize}
+    \item KPI – Key Performance Indicator  
+    \item IMM – Impact Measurement and Management  
+    \item SDG – Sustainable Development Goal  
+    \item LLM – Large Language Model  
+    \item XAI – Explainable Artificial Intelligence  
+    \item IRIS+ – Impact Reporting and Investment Standards  
+\end{itemize}
+
+\textbf{TODO:} Expand glossary with pipeline-specific terms (e.g., `LangGraph`, `PyPDF extraction`, `Profile Pydantic Model`).
+
+---
+
+\textbf{Note:} This appendix is intended to provide transparency and reproducibility for the artefact’s processing and outputs, while keeping all data anonymized and compliant with privacy standards.  

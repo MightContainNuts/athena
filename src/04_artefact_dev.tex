@@ -1,88 +1,209 @@
 \chapter{Artefact Development}\label{ch:artefact-development}
 
-This chapter describes the design and implementation of the AI-supported Impact Measurement and Management (IMM) artefact in the context of \textit{Inluma}.
-It details the conceptual framework, tool components, and the technical pipelines developed to support value-driven evaluation.
+This chapter describes the design and implementation of the AI-supported Impact Measurement and Management (IMM) artefact for \textit{Inluma}.
+It details the workflow from onboarding new projects, parsing and structuring pitch decks, AI-assisted KPI generation, and integration with the Public Value Academy platform.
 
-\section{Conceptual Design of the AI-Based IMM Framework}\label{sec:conceptual-design}
+\section{Project Onboarding and Pitch Deck Parsing}\label{sec:onboarding}
 
-The artefact integrates three core functions:
+To reduce early-stage assessment pain points, a \textbf{Pitch Deck Parsing} function was developed:
 
 \begin{itemize}
-    \item \textbf{Semantic Clustering:} Organizes unstructured narrative inputs (e.g., pitch decks, stakeholder interviews) into thematic clusters.
-    \item \textbf{KPI Derivation Pipeline:} Generates structured, auditable Key Performance Indicators from problem statements.
-    \item \textbf{SDG Mapping and Justification:} Aligns project objectives with Sustainable Development Goals and provides transparent reasoning for each assignment.
+    \item PDF documents are processed using \texttt{PyPDF} to extract text and graphic information.
+    \item AI models correct scrambled text, OCR errors, or formatting inconsistencies.
+    \item Extracted data is structured with \texttt{Pydantic} classes for downstream processing.
 \end{itemize}
-
-The framework follows a human-in-the-loop approach, ensuring AI augments rather than replaces stakeholder judgment.
-
-\section{Implementation in \textit{Inluma}}\label{sec:implementation-in-inluma}
-
-\subsection{Semantic Clustering Pipeline}\label{subsec:semantic-clustering}
-
-Narratives are processed through the following steps:
-
-\begin{enumerate}
-    \item \textbf{Embedding Generation:} Conversion of text into dense vector representations using OpenAI’s \texttt{text-embedding-ada-002}.
-    \item \textbf{Dimensionality Reduction:} Applying UMAP for interpretable low-dimensional projections.
-    \item \textbf{Clustering:} HDBSCAN identifies thematic clusters across diverse project inputs.
-    \item \textbf{Cluster Interpretation:} GPT-4 summarizes cluster contents for stakeholder review.
-\end{enumerate}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{../fig/clustering_pipeline}
-    \caption{Semantic Clustering Pipeline for Narrative Inputs}
-    \label{fig:clustering-pipeline}
+    \begin{tikzpicture}[
+        node distance=1.5cm,
+        every node/.style={font=\sffamily, align=center},
+        box/.style={rectangle, rounded corners, draw=black, fill=gray!10, minimum width=6cm, minimum height=1cm},
+        arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick}
+    ]
+    % Nodes
+    \node[box] (upload) {Upload Pitch Deck (PDF)};
+    \node[box, below=of upload] (pdf) {PDF Parsing \& Text Extraction (PyPDF)};
+    \node[box, below=of pdf] (ai_clean) {AI-Enhanced Text Cleaning \& Scramble Correction};
+    \node[box, below=of ai_clean] (struct) {Structured Data Mapping (Pydantic Classes)};
+    \node[box, below=of struct] (profile) {Profile Creation: Company, Project, Impact Dimensions};
+    \node[box, below=of profile] (output) {Output: Ready-to-Use Structured Project Profile};
+    % Arrows
+    \draw[arrow] (upload) -- (pdf);
+    \draw[arrow] (pdf) -- (ai_clean);
+    \draw[arrow] (ai_clean) -- (struct);
+    \draw[arrow] (struct) -- (profile);
+    \draw[arrow] (profile) -- (output);
+    \end{tikzpicture}
+    \caption{Automated Pitch Deck Parsing and AI-Enhanced Extraction Workflow (vertical layout).}
+    \label{fig:pitchdeck-parsing}
 \end{figure}
 
-\subsection{KPI Derivation Pipeline}\label{subsec:kpi-pipeline}
+\subsection{Structured Project Profile}\label{subsec:profile-model}
 
-The LangGraph pipeline enables auditable KPI generation:
+The \texttt{Profile} Pydantic model captures essential company, founder, and project information:
 
-\begin{enumerate}
-    \item Input parsing and problem statement structuring
-    \item Metric and leverage point extraction
-    \item Solution mapping
-    \item Impact framing using IOOI (Inputs, Outputs, Outcomes, Impact)
-    \item SDG alignment
-    \item Candidate indicator retrieval and critique
-    \item KPI generation and audit loops
-    \item Transparency trace logging
-\end{enumerate}
+\begin{verbatim}
+class Profile(BaseModel):
+    startup_name: str
+    legal_form: str
+    founder_first_name: str
+    founder_last_name: str
+    founder_gender: Gender
+    startup_email: str
+    startup_phone: str
+    startup_city: str
+    startup_country: str
+    startup_postcode: str
+    website: str
+    project_beginning: str
+    turnover: int
+    profit: int
+    employers: int
+    problem: str
+    vision: str
+    mission: str
+    solution: str
+    social_impact: str
+    reason: str
+    value_1: str
+    value_2: str
+    value_3: str
+    target_group: str
+\end{verbatim}
+
+\textbf{TODO:} Add example filled instance to illustrate real project onboarding.
+
+\section{Indicator and KPI Generation}\label{sec:kpi-generation}
+
+Following onboarding, the IMM phase begins:
+
+\begin{itemize}
+    \item Pre-generated library of over 1,600 indicators serves as reference.
+    \item Function \texttt{gen\_k\_measurement\_kpi()} generates SMART KPIs for specific categories/subcategories.
+    \item Each KPI contains short-term and long-term goals, measurement methods, units, survey questions, and justification.
+    \item Optional secondary goals created if multiple outcomes are detected in input text.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.9\textheight]{../fig/langgraph_pipeline}
-    \caption{LangGraph Pipeline for KPI Derivation and Impact Structuring}
-    \label{fig:langgraph-pipeline}
+    \begin{tikzpicture}[
+        node distance=1.5cm,
+        every node/.style={font=\sffamily, align=center},
+        box/.style={rectangle, rounded corners, draw=black, fill=gray!10, minimum width=6cm, minimum height=1cm},
+        arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick}
+    ]
+    % Nodes
+    \node[box] (input) {Pitch Deck / Project Profile};
+    \node[box, below=of input] (parsing) {Text Parsing \& Cleaning (PyPDF + AI)};
+    \node[box, below=of parsing] (structuring) {Structured Data Extraction (Pydantic)};
+    \node[box, below=of structuring] (kpi) {KPI Generation via LLM (LangGraph)};
+    \node[box, below=of kpi] (audit) {Audit \& Human-in-the-Loop Validation};
+    \node[box, below=of audit] (sdg) {SDG \& Indicator Alignment};
+    \node[box, below=of sdg] (output) {Output: Actionable KPIs \& Assessment Forms};
+    % Arrows
+    \draw[arrow] (input) -- (parsing);
+    \draw[arrow] (parsing) -- (structuring);
+    \draw[arrow] (structuring) -- (kpi);
+    \draw[arrow] (kpi) -- (audit);
+    \draw[arrow] (audit) -- (sdg);
+    \draw[arrow] (sdg) -- (output);
+    \end{tikzpicture}
+    \caption{AI-Assisted KPI Generation Workflow (vertical layout for compact page fit).}
+    \label{fig:kpi-generation}
 \end{figure}
 
-\subsection{SDG Mapping and Justification}\label{subsec:sdg-mapping}
+\begin{verbatim}
+def gen_k_measurement_kpi(category: str, subcategory: str, k: int = 10):
+    """
+    Generate k distinct SMART IndicatorKPIs for a given category/subcategory using an LLM.
+    """
+    # Structured LLM output via API
+    ...
+\end{verbatim}
+
+\textbf{TODO:} Include one full example of generated KPI in appendix with short-term and long-term indicators.
+
+\section{Human-in-the-Loop Evaluation}\label{sec:hitl}
+
+Generated KPIs and assessment forms are:
 
 \begin{itemize}
-    \item Projects are semantically classified against SDGs using GPT-4.
-    \item Justification outputs provide transparency, enabling stakeholders to understand reasoning and challenge outputs if necessary.
+    \item Reviewed by domain experts and stakeholders before deployment.
+    \item Distributed to target groups for feedback and data collection.
+    \item Iteratively refined for alignment with project objectives and public value principles.
 \end{itemize}
+
+\textbf{TODO:} Add example of human-in-the-loop feedback affecting KPI refinement.
 
 \section{Integration with the Public Value Academy Platform}\label{sec:integration-platform}
 
-The artefact was designed for seamless integration into the Public Value Academy digital infrastructure:
-
 \begin{itemize}
-    \item Supports workshops and guided reflection around public value.
-    \item Enables iterative improvement of AI-supported evaluative tools.
-    \item Embeds human-in-the-loop feedback directly into evaluation workflows.
+    \item Supports workshops and structured reflection around public value.
+    \item Embeds human-in-the-loop feedback directly into workflows.
+    \item Enables iterative improvement of AI-supported tools.
 \end{itemize}
 
 \section{Ethical and Governance Considerations}\label{sec:ethical-governance}
 
 \begin{itemize}
     \item GDPR-compliant handling of participant and project data.
-    \item Explainable AI (XAI) principles applied throughout for transparency.
-    \item Human oversight ensured in all critical stages (SDG mapping, KPI generation, indicator selection).
+    \item Explainable AI (XAI) applied throughout parsing, KPI generation, and SDG mapping.
+    \item Human oversight enforced in all critical stages.
 \end{itemize}
+
+\section{Next Steps and Data Analysis}\label{sec:next-steps}
+
+\begin{itemize}
+    \item \textbf{TODO:} Define the methodology for analyzing collected KPI and survey data, including:
+        \begin{itemize}
+            \item Aggregation and cleaning of responses from target groups,
+            \item Statistical analysis for quantitative indicators,
+            \item NLP or thematic analysis for qualitative inputs,
+            \item Integration of findings with public value dimensions.
+        \end{itemize}
+    \item \textbf{TODO:} Determine thresholds or scoring rubric for KPI performance and public value metrics.
+    \item \textbf{TODO:} Include mock-up or example of impact dashboard.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={rectangle, draw=black, rounded corners, fill=gray!10, minimum width=8cm, minimum height=1cm, align=center},
+    arrow/.style={->, thick}
+]
+
+% Nodes
+\node[box] (pitchdeck) {Pitch Deck\\Parsing \& AI Extraction};
+\node[box, below=of pitchdeck] (profile) {Startup Profile\\(Pydantic Model)};
+\node[box, below=of profile] (kpi) {AI-Assisted\\KPI Generation};
+\node[box, below=of kpi] (data) {Data Collection\\(Target Groups)};
+\node[box, below=of data] (analysis) {Data Analysis\\Quantitative \& Qualitative \\ \textbf{TODO: Define methods}};
+\node[box, below=of analysis] (dashboard) {Impact Dashboard\\for Stakeholders \\ \textbf{TODO: Mock-up / Metrics}};
+
+% Arrows
+\draw[arrow] (pitchdeck) -- (profile);
+\draw[arrow] (profile) -- (kpi);
+\draw[arrow] (kpi) -- (data);
+\draw[arrow] (data) -- (analysis);
+\draw[arrow] (analysis) -- (dashboard);
+
+\end{tikzpicture}
+\caption{End-to-End Vertical Workflow: From Pitch Deck Parsing to Impact Dashboard}
+\label{fig:end-to-end-pipeline-vertical}
+\end{figure}
 
 \section{Summary}\label{sec:artefact-summary}
 
-Chapter 4 demonstrates that a prototypical, AI-supported IMM artefact can be designed to combine automated analysis with human judgment.
-The artefact provides interpretable outputs, enables structured reflection on public value, and serves as the foundation for the demonstration and evaluation in the following chapter.
+This chapter demonstrates that the AI-supported IMM artefact can:
+
+\begin{itemize}
+    \item Efficiently onboard new projects using automated pitch deck parsing.
+    \item Generate structured project profiles with AI-assisted data extraction.
+    \item Produce actionable KPIs aligned with SDGs and recognized impact frameworks.
+    \item Maintain a human-in-the-loop workflow for quality assurance, interpretability, and stakeholder validation.
+    \item Feed collected data into a dashboard for actionable insights for impact investors.
+\end{itemize}
+
+\textbf{TODO:} Fill in the analysis methods, dashboard design, and examples before final evaluation chapter.
