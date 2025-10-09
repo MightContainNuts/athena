@@ -27,5 +27,5 @@
 *.iml
 
 # Output directory (if you have one like 'out' or 'build')
-out/
+
 build/
