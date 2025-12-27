@@ -4,6 +4,8 @@ This chapter outlines the methodology guiding this research.
 Building on the principles of \textbf{Design Science Research (DSR)}, it describes the process through which an AI-enabled Impact Measurement and Management (IMM) artefact was designed, developed, demonstrated, and evaluated within the context of \textit{Inluma} and the Public Value Hub in Leipzig.
 The chapter first introduces the methodological foundation, then explains the research context, followed by the stages of artefact creation and evaluation, and concludes with reflections on contributions and ethical considerations.
 
+The process structure primarily follows the six-step model proposed by Peffers et al.~\parencite{peffers2007design}, while drawing on Hevner et al.~\parencite{hevner2004design} for overarching design principles and evaluation criteria.
+
 % ===========================
 % SECTION 3.1
 % ===========================
@@ -16,6 +18,8 @@ The artefact is implemented as a \textbf{prototypical instantiation}—a proof o
 The evaluation therefore focuses on usability, interpretability, and improvement potential rather than generalizability or market readiness.
 
 Following the DSR framework, the research proceeds through six iterative stages (Figure~\ref{fig:dsr-cycle}): problem identification, knowledge base grounding, artefact design and development, demonstration, evaluation, and reflection and contribution.
+
+In this thesis, the artefact takes the form of an AI-enabled IMM framework instantiated as a prototypical software component within the \textit{Inluma} platform.
 
 % ===========================
 % DSR process cycle figure
@@ -120,7 +124,8 @@ This enables clustering of projects with similar focus areas and enhances automa
 \begin{itemize}
     \item \textbf{Preprocessing:} Tokenization, stopword removal, and lemmatization prepare textual data for analysis.
     \item \textbf{Vectorization:} Both TF–IDF and Bag-of-Words representations are computed for interpretability.
-    \item \textbf{Topic Modeling (LDA):} Latent Dirichlet Allocation identifies thematic structures within project narratives. \textbf{TODO: Train model and extract representative topics per cluster.}
+    \item \textbf{Topic Modeling (LDA):} Latent Dirichlet Allocation identifies thematic structures within project narratives.
+    In the scope of this thesis, topic modeling was explored at a prototypical level to assess feasibility and interpretability, rather than to optimize model performance or exhaustively validate topic coherence.
     \item \textbf{Clustering:} Projects are grouped based on topic distributions or semantic embeddings to reveal recurring social and environmental domains.
     \item \textbf{Similarity Search:} Cosine similarity enables retrieval of similar projects or indicators, supporting recommendation logic.
 \end{itemize}
@@ -137,7 +142,7 @@ This enables clustering of projects with similar focus areas and enhances automa
 \node[box] (input) {Narrative Inputs from Project Profiles};
 \node[box, below=of input] (preprocess) {Text Preprocessing \\ (Tokenization, Lemmatization, Stopword Removal)};
 \node[box, below=of preprocess] (vector) {Vectorization \\ (TF–IDF / Bag-of-Words)};
-\node[box, below=of vector] (lda) {Topic Modeling (LDA) \\ \textbf{TODO: Extract top topics \& keywords}};
+\node[box, below=of vector] (lda) {Topic Modeling (LDA) \\ (Exploratory topic extraction)};
 \node[box, below=of lda] (cluster) {Semantic Clustering of Projects};
 \node[box, below=of cluster] (similarity) {Cosine Similarity Search on Embeddings};
 \node[box, below=of similarity] (kpi) {Indicator Recommendation \\ (Top-K KPIs \& SDG Alignment)};
@@ -170,7 +175,7 @@ The prototype was integrated into the digital platform of the Public Value Acade
 
 A formative evaluation approach was adopted.
 The artefact was tested with anonymized project materials and synthetic inputs to ensure data protection.
-Practitioner feedback was collected through user walkthroughs and structured reflections.
+Practitioner feedback was collected through guided user walkthroughs and structured reflection sessions, documented using qualitative notes and thematic synthesis.
 
 Evaluation criteria included:
 \begin{itemize}
@@ -183,9 +188,6 @@ Evaluation criteria included:
 Findings from the evaluation informed iterative refinement of the artefact, consistent with DSR’s cyclical nature of design, demonstration, and assessment.
 
 
-% ===========================
-% SECTION 3.6
-% ===========================
 \section{Reflection and Contribution}\label{sec:reflection-contribution}
 
 The reflection stage consolidates theoretical and practical insights from the artefact’s design and evaluation.
@@ -196,9 +198,6 @@ The artefact demonstrates that AI can act as a \textit{cognitive partner} in imp
 These reflections form the basis for the discussion and analysis presented in the following chapter.
 
 
-% ===========================
-% SECTION 3.7
-% ===========================
 \section{Ethical Considerations}\label{sec:ethical-considerations}
 
 Ethical and responsible design are integral components of the DSR process, ensuring that technological artefacts align with societal and normative values.
@@ -206,9 +205,7 @@ In this research, ethical safeguards were embedded throughout both the qualitati
 
 All participants in interviews and workshops provided informed consent, and data collection followed the principles of the General Data Protection Regulation (GDPR).
 Anonymized datasets were used for prototype testing.
-From a technical perspective, explainability and transparency were prioritized by incorporating model interpretation tools such as SHAP (SHapley Additive exPlanations) and by logging all AI interactions.
+From a technical perspective, explainability and transparency were addressed by designing the artefact with interpretability in mind, including the consideration of model interpretation techniques such as SHAP (SHapley Additive exPlanations) and systematic logging of AI interactions.
 
 Additionally, the design process considered potential risks of bias, over-automation, and the ethical use of public sector data.
 Mitigation strategies included human-in-the-loop validation, traceability of model outputs, and clear boundaries between automated analysis and human interpretation.
-
----

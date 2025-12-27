@@ -3090,18 +3090,19 @@
     <bcf:citekey order="16" intorder="1">devlin2018bert</bcf:citekey>
     <bcf:citekey order="17" intorder="1">devlin2018bert</bcf:citekey>
     <bcf:citekey order="18" intorder="1">sun2019algorithmic</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">sun2019algorithmic</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">brown2020algorithmic</bcf:citekey>
     <bcf:citekey order="20" intorder="1">brown2020algorithmic</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">brown2020algorithmic</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">epstein_yuthas_2014</bcf:citekey>
-    <bcf:citekey order="22" intorder="2">fraunhofer_2023</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">citylab_2024</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">moore_1995</bcf:citekey>
-    <bcf:citekey order="24" intorder="2">benington_moore_2011</bcf:citekey>
-    <bcf:citekey order="24" intorder="3">eu_2024</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">epstein_yuthas_2014</bcf:citekey>
+    <bcf:citekey order="21" intorder="2">fraunhofer_2023</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">citylab_2024</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">moore_1995</bcf:citekey>
+    <bcf:citekey order="23" intorder="2">benington_moore_2011</bcf:citekey>
+    <bcf:citekey order="23" intorder="3">eu_2024</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">peffers2007design</bcf:citekey>
     <bcf:citekey order="25" intorder="1">hevner2004design</bcf:citekey>
-    <bcf:citekey order="25" intorder="2">peffers2007design</bcf:citekey>
-    <bcf:citekey order="26" intorder="1" nocite="1">*</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">hevner2004design</bcf:citekey>
+    <bcf:citekey order="26" intorder="2">peffers2007design</bcf:citekey>
+    <bcf:citekey order="27" intorder="1" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">

@@ -1,48 +1,75 @@
+\documentclass[11pt,a4paper]{report}
 
-\documentclass[12pt]{report}
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-\usepackage{hyphenat}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
-\usepackage{geometry}
-\usepackage{fancyhdr}
-\setlength{\headheight}{15pt}
-\usepackage{setspace}
-\usepackage{csquotes}
-\usepackage{float}
-\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
-
-\usepackage[backend=biber,style=apa]{biblatex}
-\addbibresource{references.bib}
-
-
-\documentclass[11pt,a4paper]{article}
+% ---------- Encoding / language ----------
 \usepackage[T1]{fontenc}
-\usepackage{titlesec}
+\usepackage[utf8]{inputenc} % ok to keep for pdflatex compatibility
+\usepackage[english]{babel}
+\usepackage{csquotes}
 
-% ===========================
-% Layout according to IU specs
-% ===========================
+% ---------- Layout ----------
+\usepackage{geometry}
 \geometry{a4paper, top=2cm, bottom=2cm, left=2cm, right=2cm}
-\setstretch{1.5} % Line spacing
 
-% Font sizes: 11pt text, 12pt headings
-\renewcommand\normalsize{\fontsize{11}{13.6}\selectfont}
-\renewcommand\footnotesize{\fontsize{10}{12}\selectfont}
+\usepackage{setspace}
+\setstretch{1.5}
 
 % Paragraphs: 6pt spacing after, no indent
 \setlength{\parskip}{6pt}
 \setlength{\parindent}{0pt}
 
-% Numbering: max. 3 levels
-\setcounter{secnumdepth}{3}
+% ---------- Figures / tables ----------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs} % for \toprule \midrule \bottomrule
 
-% Heading formatting
+% ---------- Math ----------
+\usepackage{amsmath}
+
+% ---------- Links ----------
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+% ---------- Headings ----------
+\usepackage{titlesec}
+
+% Heading formatting (IU)
 \titleformat{\section}{\fontsize{12}{14}\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\fontsize{12}{14}\bfseries}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}{\fontsize{12}{14}\itshape}{\thesubsubsection}{1em}{}
+
+% Numbering: max. 3 levels
+\setcounter{secnumdepth}{3}
+
+% ---------- Code listings ----------
+\usepackage{listings}
+\lstset{
+    breaklines=true,
+    breakatwhitespace=true,
+    basicstyle=\ttfamily\small,
+}
+
+% ---------- TikZ diagrams (needed for your DSR + pipeline figures) ----------
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric}
+
+% ---------- Notes ----------
+\usepackage[disable]{todonotes}
+
+% ---------- Bibliography ----------
+\usepackage[backend=biber,style=apa]{biblatex}
+\addbibresource{references.bib}
+
+% ---------- (Optional) Header/footer ----------
+% Only keep fancyhdr if you actually configure it.
+% If not, remove it to avoid confusion.
+% \usepackage{fancyhdr}
+% \setlength{\headheight}{15pt}
+% \pagestyle{fancy}
+
+% ---------- IU font sizes ----------
+\renewcommand\normalsize{\fontsize{11}{13.6}\selectfont}
+\renewcommand\footnotesize{\fontsize{10}{12}\selectfont}
+
+\begin{document}
 
 % ===========================
 % Title Page
@@ -101,4 +128,3 @@
 \input{appendix_add_data}
 
 \end{document}
-o

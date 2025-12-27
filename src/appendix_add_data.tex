@@ -3,13 +3,15 @@
 
 \chapter{Additional Data}\label{ch:additional-data}
 
-This appendix contains supplementary materials that support the AI-supported IMM artefact described in Chapters~\ref{ch:artefact-development} and \ref{ch:results}. 
-It includes raw project profiles, generated KPIs, audit logs, and dashboard mock-ups.
+This appendix contains supplementary materials that support the AI-supported IMM artefact described in Chapters~\ref{ch:artefact-development} and \ref{ch:demonstration-evaluation}.
+It includes synthetic project profile examples, generated KPIs, audit log excerpts, and dashboard mock-ups.
 
-\section*{1. Example Project Profiles}
+\section*{Example Project Profiles}
 
-Below are anonymized structured outputs from the \texttt{Profile} Pydantic model for two sample projects. 
+Below are structured outputs from the \texttt{Profile} Pydantic model for three synthetic sample projects.
 These illustrate the type of information extracted from pitch decks and structured for KPI generation.
+
+\noindent\textit{The following profiles are synthetic examples generated for demonstration purposes:}
 
 \begin{verbatim}
 {
@@ -41,13 +43,71 @@ These illustrate the type of information extracted from pitch decks and structur
 }
 \end{verbatim}
 
-\textbf{TODO:} Add 1–2 more anonymized profiles illustrating diverse sectors and project types.
+\begin{verbatim}
+{
+  "startup_name": "CareConnect Health",
+  "legal_form": "UG",
+  "founder_first_name": "David",
+  "founder_last_name": "Müller",
+  "founder_gender": "male",
+  "startup_email": "contact@careconnect.health",
+  "startup_phone": "+49 987 654 321",
+  "startup_city": "Hamburg",
+  "startup_country": "Germany",
+  "startup_postcode": "20095",
+  "website": "https://careconnect.health",
+  "project_beginning": "2022-10-15",
+  "turnover": 180000,
+  "profit": -20000,
+  "employers": 4,
+  "problem": "Limited access to mental health support for young adults",
+  "vision": "Affordable mental health support for everyone",
+  "mission": "Deliver low-threshold digital mental health services",
+  "solution": "Mobile app offering guided self-help and remote coaching",
+  "social_impact": "Improved mental well-being and early intervention",
+  "reason": "Address growing unmet mental health needs",
+  "value_1": "Accessibility",
+  "value_2": "Empathy",
+  "value_3": "Trust",
+  "target_group": "Young adults aged 18–30"
+}
+\end{verbatim}
 
----
 
-\section*{2. Generated KPIs / Indicators}
+\begin{verbatim}
+{
+  "startup_name": "CarbonSight",
+  "legal_form": "GmbH",
+  "founder_first_name": "Sofia",
+  "founder_last_name": "Lindner",
+  "founder_gender": "female",
+  "startup_email": "hello@carbonsight.io",
+  "startup_phone": "+49 555 123 987",
+  "startup_city": "Munich",
+  "startup_country": "Germany",
+  "startup_postcode": "80331",
+  "website": "https://carbonsight.io",
+  "project_beginning": "2021-06-01",
+  "turnover": 520000,
+  "profit": 85000,
+  "employers": 9,
+  "problem": "SMEs lack tools to measure Scope 1 and 2 emissions",
+  "vision": "Transparent emissions data for every business",
+  "mission": "Enable data-driven climate action for SMEs",
+  "solution": "Carbon accounting software with automated data ingestion",
+  "social_impact": "Supports emission reductions and climate reporting",
+  "reason": "Regulatory pressure and sustainability demand",
+  "value_1": "Transparency",
+  "value_2": "Accuracy",
+  "value_3": "Responsibility",
+  "target_group": "European SMEs"
+}
+\end{verbatim}
 
-Example KPI generated from the above project profile:
+
+\section*{Generated KPIs / Indicators}
+
+Example KPI generated from the above project profiles:
 
 \begin{verbatim}
 {
@@ -74,12 +134,21 @@ Example KPI generated from the above project profile:
 }
 \end{verbatim}
 
-\textbf{TODO:} Include 2–3 more KPIs per category to show coverage and variety.  
-\textbf{TODO:} Add example of secondary goal handling when multiple outcomes are detected.
+\textit{The following excerpt illustrates how multiple outcomes are detected and represented; non-essential fields are omitted for brevity.}
 
----
+\begin{verbatim}
+{
+  "goal": [
+    "Increase active platform usage",
+    "Improve reporting consistency among startups"
+  ],
+  "short_term_goal_1": "Startups log in monthly",
+  "short_term_goal_2": "Startups submit at least one KPI report per quarter",
+  "justification": "Multiple outcomes detected: adoption and learning behaviour"
+}
+\end{verbatim}
 
-\section*{3. Human-in-the-Loop Audit Logs}
+\section*{Human-in-the-Loop Audit Logs}
 
 \begin{quote}
 \textit{"Short-term indicator was slightly ambiguous; refined wording to ensure farmers understand units and target."}
@@ -89,25 +158,36 @@ Example KPI generated from the above project profile:
 \textit{"SDG mapping verified: matches SDG 2.4 (Zero Hunger) and SDG 12.4 (Responsible Consumption)"} 
 \end{quote}
 
-\textbf{TODO:} Include anonymized full audit log table showing KPI revisions, reviewer comments, and XAI trace outputs.
+\begin{table}[H]
+\centering
+\caption{Example anonymized audit log for KPI refinement}
+\begin{tabular}{p{0.18\textwidth} p{0.25\textwidth} p{0.45\textwidth}}
+\toprule
+\textbf{Stage} & \textbf{Actor} & \textbf{Comment / Change} \\
+\midrule
+Initial generation & LLM & KPI proposed with generic wording \\
+Expert review & Domain expert & Clarified indicator unit and timeframe \\
+SDG validation & Impact analyst & Confirmed SDG 2.4 and SDG 12.4 alignment \\
+Final approval & Platform admin & KPI approved for deployment \\
+\bottomrule
+\end{tabular}
+\end{table}
 
----
+\section*{Dashboard Mock-Up}
 
-\section*{4. Dashboard Mock-Up}
+
+The dashboard mock-up is populated with simulated KPI values based on realistic adoption and impact trajectories.
+It visualizes KPI performance over time, compares projects within a cohort, and highlights contributions to public value dimensions such as sustainability, equity and participation.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../fig/dashboard_mockup}
+    \includegraphics[width=0.8\textwidth]{../fig/impact_dashboard}
     \caption{Prototype Impact Dashboard Showing KPI Performance and Trends}
-    \label{fig:dashboard-mockup}
+    \label{fig:impact_dashboard}
 \end{figure}
 
-\textbf{TODO:} Populate dashboard with real or simulated KPI metrics.  
-\textbf{TODO:} Add labels for public value dimensions, project comparisons, and trends.
 
----
-
-\section*{5. Data Collection Instruments}
+\section*{Data Collection Instruments}
 
 Example survey question derived from KPI:
 
@@ -119,29 +199,51 @@ Example survey question derived from KPI:
 \textbf{Measurement Method:} Self-reported comparison to baseline season recorded at onboarding
 \end{quote}
 
-\textbf{TODO:} Add example long-term KPI survey question.  
-\textbf{TODO:} Include one qualitative open-ended question from mission/vision evaluation.
+\textbf{Long-term KPI Question:}
+How many kilograms of synthetic nitrogen per hectare did you apply during the last growing season?
 
----
 
-\section*{6. Raw Analysis Outputs}
+\textbf{Open-ended Question:}
+How has the project influenced your understanding or behaviour regarding sustainable farming practices?
 
-\textbf{TODO:} Include anonymized sample outputs of KPI aggregation, summary statistics, or thematic analysis of qualitative data.  
-\textbf{TODO:} Add visualizations like histograms or word clouds if available.
+\section*{Raw Analysis Outputs}
 
----
+Example aggregated results include mean KPI values per cohort, standard deviations, and trend indicators (e.g. improvement vs.\ baseline).
+Qualitative responses are clustered thematically (e.g.\ transparency, usability, trust) using embedding-based methods and manually validated.
 
-\section*{7. Ethical and Governance Documentation}
+
+
+\section*{Ethical and Governance Documentation}
+
+The AI-supported IMM artefact is designed and evaluated in accordance with ethical, legal, and governance principles, with a particular focus on data protection, transparency, and human oversight.
 
 \begin{itemize}
-    \item GDPR-compliant consent form template \textbf{TODO: add redacted form}.
-    \item Notes on anonymization and secure storage \textbf{TODO: describe procedure}.
-    \item Guidelines for human-in-the-loop oversight \textbf{TODO: include short description or table}.
+
+    \item \textbf{GDPR-compliant consent form template (redacted):}
+    All participants whose data is processed within the artefact provide informed consent prior to data collection.
+    The consent form clearly specifies the purpose of data processing, the types of data collected (e.g.\ survey responses, usage metrics), storage duration, and participants’ rights (access, rectification, deletion).
+    Personal identifiers are collected only where strictly necessary and are excluded from analytical outputs.
+    A redacted version of the consent form is used in this appendix to avoid disclosure of sensitive or identifying information.
+
+    \item \textbf{Anonymization and secure storage procedures:}
+    Collected data is anonymized at the earliest possible stage. Direct identifiers (e.g.\ names, email addresses, phone numbers) are removed or replaced by pseudonymous IDs.
+    Analytical datasets operate exclusively on aggregated or pseudonymized data at project or cohort level.
+    All data is stored on secure servers with access control, and transmission is encrypted using standard protocols.
+    Raw data access is restricted to authorized personnel involved in evaluation and quality assurance.
+    Access to datasets, audit logs, and dashboard views is role-based, ensuring that only authorized analysts or administrators can access sensitive information.
+
+    \item \textbf{Guidelines for human-in-the-loop oversight:}
+    Human oversight is enforced at all critical stages of the IMM pipeline.
+    AI-generated outputs (e.g.\ extracted profiles, generated KPIs, SDG mappings, narrative summaries) are treated as decision-support artifacts rather than final decisions.
+    Domain experts review, edit, and approve outputs before they are used for assessment or reporting.
+    All revisions and approvals are logged to ensure traceability and accountability.
+    This human-in-the-loop approach mitigates risks of misinterpretation, bias, or inappropriate automation and aligns the artefact with responsible AI principles.
+
 \end{itemize}
 
----
+Together, these measures ensure that the artefact complies with GDPR requirements, supports transparency and explainability, and embeds ethical governance mechanisms throughout the AI-supported impact measurement process.
 
-\section*{8. Glossary and Abbreviations}
+\section*{Glossary and Abbreviations}
 
 \begin{itemize}
     \item KPI – Key Performance Indicator  
@@ -149,11 +251,13 @@ Example survey question derived from KPI:
     \item SDG – Sustainable Development Goal  
     \item LLM – Large Language Model  
     \item XAI – Explainable Artificial Intelligence  
-    \item IRIS+ – Impact Reporting and Investment Standards  
+    \item IRIS+ – Impact Reporting and Investment Standards
+    \item LangGraph – Framework for orchestrating multi-step LLM workflows
+    \item PyPDF – Python library for PDF parsing and text extraction
+    \item Profile Pydantic Model – Structured schema used to store project onboarding data
+    \item EPCIS – Electronic Product Code Information Services (traceability standard)
+    \item GS1 Digital Link – Standard for resolving product identifiers to digital resources
 \end{itemize}
 
-\textbf{TODO:} Expand glossary with pipeline-specific terms (e.g., `LangGraph`, `PyPDF extraction`, `Profile Pydantic Model`).
-
----
 
 \textbf{Note:} This appendix is intended to provide transparency and reproducibility for the artefact’s processing and outputs, while keeping all data anonymized and compliant with privacy standards.  

@@ -39,50 +39,455 @@ To reduce early-stage assessment pain points, a \textbf{Pitch Deck Parsing} func
     \label{fig:pitchdeck-parsing}
 \end{figure}
 
+% TODO screenshot: pitch deck upload / parsing UI
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/pitchdeck_upload_ui}
+    \caption{Screenshot of the pitch deck upload and parsing interface in the prototype.}
+    \label{fig:pitchdeck_ui}
+\end{figure}
+
+
+% TODO screenshot: pitch deck upload / parsing UI
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/parsed_info_pitchdeck}
+    \caption{Screenshot of the parsed info being populated into the profile}
+    \label{fig:parsed_info_pitchdeck}
+\end{figure}
 \subsection{Structured Project Profile}\label{subsec:profile-model}
 
 The \texttt{Profile} Pydantic model captures essential company, founder, and project information:
 
+\begin{lstlisting}
+class IndicatorKPI(BaseModel):
+    category: str = Field(description="The area of interest.")
+    sub_category: str = Field(description="The sub-category of interest.")
+
+    goal: List[str] = Field(
+        description="The goal os goals of the indicator")
+
+    short_term_goal_1: str = Field(description="The short term goal of the indicator")
+    short_term_indicator_1: str = Field(description="The indicator.")
+    short_term_question_1: str = Field(description="The short term question.")
+    type_of_short_term_question_1: QuestionType = Field(description="Type of question.")
+    answer_options_short_term_question_1: List[str] = Field(description="List of options for the question.")
+    measurement_method_short_term_question_1: str = Field(description="Measurement method for the indicator or its title/label.")
+    unit_method_short_term_question_1: str = Field(description="Unit for the indicator")
+    justification_method_short_term_question_1: str = Field(description="Justification for the indicator")
+    source_method_short_term_question_1: str = Field(description="The source (framework) of the indicator")
+
+    long_term_goal_1: List[str] = Field(description="The long term goal of the indicator")
+    long_term_indicator_1: List[str]= Field(description="The indicator.")
+    long_term_question_1: str = Field(description="Question text for the indicator")
+    type_of_long_term_question_1: QuestionType = Field(description="Type of question.")
+    answer_options_long_term_question_1: List[str] = Field(description="List of options for the question.")
+    measurement_method_long_term_question_1: str = Field(description="Measurement method for the indicator or its title/label.")
+    unit_method_long_term_question_1: str = Field(description="Unit for the indicator")
+    justification_method_long_term_question_1: str = Field(description="Justification for the indicator")
+    source_method_long_term_question_1: str = Field(description="The source (framework) of the indicator")
+
+    short_term_goal_2: List[str] = Field(description="The short term goal of the indicator")
+    short_term_indicator_2: List[str] = Field(description="The indicator.")
+    short_term_question_2: str = Field(description="The short term question.")
+    type_of_short_term_question_2: QuestionType = Field(description="Type of question.")
+    answer_options_short_term_question_2: List[str] = Field(description="List of options for the question.")
+    measurement_method_short_term_question_2: str = Field(description="Measurement method for the indicator or its title/label.")
+    unit_method_short_term_question_2: str = Field(description="Unit for the indicator")
+    justification_method_short_term_question_2: str = Field(description="Justification for the indicator")
+    source_method_short_term_question_2: str = Field(description="The source (framework) of the indicator")
+
+    long_term_goal_2: List[str] = Field(description="The long term goal of the indicator")
+    long_term_indicator_2: List[str] = Field(description="The indicator.")
+    long_term_question_2: str = Field(description="Question text for the indicator")
+    type_of_long_term_question_2: QuestionType = Field(description="Type of question.")
+    answer_options_long_term_question_2: List[str] = Field(description="List of options for the question.")
+    measurement_method_long_term_question_2: str = Field(description="Measurement method for the indicator or its title/label.")
+    unit_method_long_term_question_2: str = Field(description="Unit for the indicator")
+    justification_method_long_term_question_2: str = Field(description="Justification for the indicator")
+    source_method_long_term_question_2: str = Field(description="The source (framework) of the indicator")
+
+    sdg_target_1:str = Field(description="The best matching SDG target.")
+    sdg_target_2: str = Field(description="1. Optional sub SDG target. ")
+    sdg_target_3: str = Field(description="2. Optional sub SDG target.")
+
+    question:str = Field(description="Question text for the indicator")
+    type_of_question:QuestionType = Field(description="Type of question.")
+    answer_options:List[str] = Field(description="List of options for the question.")
+    measurement_method:str = Field(description="Measurement method for the indicator or its title/label.")
+    unit:str = Field(description="Unit for the indicator")
+    justification: str = Field(
+        description="Justification for the indicator")
+    source:str = Field(description="The source (framework) of the indicator")
+\end{lstlisting}
+
+An example of a filled \texttt{Profile} instance for a hypothetical early-stage impact startup is shown below:
+
 \begin{verbatim}
-class Profile(BaseModel):
-    startup_name: str
-    legal_form: str
-    founder_first_name: str
-    founder_last_name: str
-    founder_gender: Gender
-    startup_email: str
-    startup_phone: str
-    startup_city: str
-    startup_country: str
-    startup_postcode: str
-    website: str
-    project_beginning: str
-    turnover: int
-    profit: int
-    employers: int
-    problem: str
-    vision: str
-    mission: str
-    solution: str
-    social_impact: str
-    reason: str
-    value_1: str
-    value_2: str
-    value_3: str
-    target_group: str
+example_profile = Profile(
+    startup_name="EcoTrack Analytics",
+    legal_form="GmbH",
+    founder_first_name="Laura",
+    founder_last_name="Schneider",
+    founder_gender=Gender.FEMALE,
+    startup_email="contact@ecotrack.io",
+    startup_phone="+49 176 12345678",
+    startup_city="Berlin",
+    startup_country="Germany",
+    startup_postcode="10115",\chapter{Artefact Development}\label{ch:artefact-development}
+
+This chapter describes the design and implementation of the AI-supported Impact Measurement and Management (IMM) artefact for \textit{Inluma}.
+It covers the workflow from onboarding new projects, parsing and structuring pitch decks, AI-assisted KPI generation, and integration with the Public Value Academy platform.
+
+\section{Project Onboarding and Pitch Deck Parsing}\label{sec:onboarding}
+
+To reduce early-stage assessment effort, a \textbf{pitch deck parsing} function was developed:
+
+\begin{itemize}
+    \item PDF pitch decks are processed using \texttt{PyPDF} to extract text (and, where feasible, layout-relevant cues).
+    \item AI-assisted cleaning is applied to mitigate scrambled text, OCR artefacts, and formatting inconsistencies.
+    \item Extracted content is mapped into structured schemas (Pydantic models) for downstream processing.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm,
+        every node/.style={font=\sffamily, align=center},
+        box/.style={rectangle, rounded corners, draw=black, fill=gray!10, minimum width=6cm, minimum height=1cm},
+        arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick}
+    ]
+    \node[box] (upload) {Upload Pitch Deck (PDF)};
+    \node[box, below=of upload] (pdf) {PDF Parsing \& Text Extraction (PyPDF)};
+    \node[box, below=of pdf] (ai_clean) {AI-Enhanced Text Cleaning \& Scramble Correction};
+    \node[box, below=of ai_clean] (struct) {Structured Data Mapping (Pydantic Schemas)};
+    \node[box, below=of struct] (profile) {Profile Creation: Company, Project, Impact Dimensions};
+    \node[box, below=of profile] (output) {Output: Structured Project Profile};
+    \draw[arrow] (upload) -- (pdf);
+    \draw[arrow] (pdf) -- (ai_clean);
+    \draw[arrow] (ai_clean) -- (struct);
+    \draw[arrow] (struct) -- (profile);
+    \draw[arrow] (profile) -- (output);
+    \end{tikzpicture}
+    \caption{Automated pitch deck parsing and AI-enhanced extraction workflow.}
+    \label{fig:pitchdeck-parsing}
+\end{figure}
+
+% --- FIGMA SLOTS (replace files later) ---
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_pitchdeck_upload_ui}
+    \caption{Prototype UI: pitch deck upload and parsing view (TODO: replace with Figma export).}
+    \label{fig:todo_pitchdeck_upload_ui}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_parsed_profile_autofill}
+    \caption{Prototype UI: parsed content mapped into profile fields (TODO: replace with Figma export).}
+    \label{fig:todo_parsed_profile_autofill}
+\end{figure}
+
+\subsection{Structured project profile}\label{subsec:profile-model}
+
+The onboarding stage produces a structured \texttt{Profile} object (company and project metadata plus impact-relevant narrative fields).
+This profile acts as the primary input for indicator retrieval, SDG mapping, and KPI generation.
+
+\begin{verbatim}
+example_profile = Profile(
+    startup_name="EcoTrack Analytics",
+    legal_form="GmbH",
+    founder_first_name="Laura",
+    founder_last_name="Schneider",
+    startup_city="Berlin",
+    startup_country="Germany",
+    problem="SMEs lack accessible tools to measure and optimize their environmental footprint.",
+    mission="Provide affordable, data-driven sustainability analytics for SMEs.",
+    solution="SaaS platform for automated carbon footprint analytics and reduction insights.",
+    social_impact="Supports emission reductions and improved sustainability reporting.",
+    target_group="SMEs in manufacturing and logistics."
+)
 \end{verbatim}
 
-\textbf{TODO:} Add example filled instance to illustrate real project onboarding.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_profile_view}
+    \caption{Prototype UI: structured project profile view (TODO: replace with Figma export).}
+    \label{fig:todo_profile_view}
+\end{figure}
+
+\subsection{IndicatorKPI schema}\label{subsec:indicatorkpi-schema}
+
+Generated KPIs are represented as structured \texttt{IndicatorKPI} objects.
+The schema captures short- and long-term goals, indicators, survey questions, measurement methods, units, and SDG alignment.
+
+\begin{lstlisting}
+class IndicatorKPI(BaseModel):
+    category: str
+    sub_category: str
+    goal: List[str]
+
+    short_term_goal_1: str
+    short_term_indicator_1: str
+    short_term_question_1: str
+    type_of_short_term_question_1: QuestionType
+    answer_options_short_term_question_1: List[str]
+    measurement_method_short_term_question_1: str
+    unit_method_short_term_question_1: str
+    justification_method_short_term_question_1: str
+    source_method_short_term_question_1: str
+
+    long_term_goal_1: List[str]
+    long_term_indicator_1: List[str]
+    long_term_question_1: str
+    type_of_long_term_question_1: QuestionType
+    answer_options_long_term_question_1: List[str]
+    measurement_method_long_term_question_1: str
+    unit_method_long_term_question_1: str
+    justification_method_long_term_question_1: str
+    source_method_long_term_question_1: str
+
+    sdg_target_1: str
+    sdg_target_2: str
+    sdg_target_3: str
+\end{lstlisting}
 
 \section{Indicator and KPI Generation}\label{sec:kpi-generation}
 
 Following onboarding, the IMM phase begins:
 
 \begin{itemize}
-    \item Pre-generated library of over 1,600 indicators serves as reference.
-    \item Function \texttt{gen\_k\_measurement\_kpi()} generates SMART KPIs for specific categories/subcategories.
+    \item A pre-generated library of over 1{,}600 indicators serves as a reference base.
+    \item The function \texttt{gen\_k\_measurement\_kpi()} generates SMART KPI drafts for selected categories and subcategories.
+    \item Each KPI includes measurement logic (unit, method), survey-ready question text, and a brief justification.
+    \item If multiple outcomes are detected in the input narrative, optional secondary goals can be proposed.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm,
+        every node/.style={font=\sffamily, align=center},
+        box/.style={rectangle, rounded corners, draw=black, fill=gray!10, minimum width=6cm, minimum height=1cm},
+        arrow/.style={-{Stealth[length=3mm,width=2mm]}, thick}
+    ]
+    \node[box] (input) {Pitch Deck / Project Profile};
+    \node[box, below=of input] (prep) {Parsing \& Cleaning (PyPDF + AI)};
+    \node[box, below=of prep] (struct) {Structured Extraction (Pydantic)};
+    \node[box, below=of struct] (kpi) {KPI Drafting (LLM / LangGraph)};
+    \node[box, below=of kpi] (audit) {Human Review \& Validation};
+    \node[box, below=of audit] (sdg) {SDG \& Indicator Alignment};
+    \node[box, below=of sdg] (output) {Outputs: KPIs \& Assessment Forms};
+    \draw[arrow] (input) -- (prep);
+    \draw[arrow] (prep) -- (struct);
+    \draw[arrow] (struct) -- (kpi);
+    \draw[arrow] (kpi) -- (audit);
+    \draw[arrow] (audit) -- (sdg);
+    \draw[arrow] (sdg) -- (output);
+    \end{tikzpicture}
+    \caption{AI-assisted KPI generation workflow (compact vertical layout).}
+    \label{fig:kpi-generation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_kpi_generation_ui}
+    \caption{Prototype UI: KPI generation and editing interface (TODO: replace with Figma export).}
+    \label{fig:todo_kpi_generation_ui}
+\end{figure}
+
+\begin{lstlisting}
+def gen_k_measurement_kpi(category: str, subcategory: str, k: int = 10):
+    """Generate k distinct SMART IndicatorKPI drafts for a given category/subcategory."""
+    ...
+\end{lstlisting}
+
+\subsection{Example KPI output}\label{subsec:example-kpi}
+
+Table~\ref{tab:kpi-example-compact} shows a compact example of a generated KPI instance (excerpt of the full JSON structure).
+The complete structured object is included in Appendix~\ref{ch:additional-data} to provide full field-level transparency without exceeding page width in the main chapter.
+
+\begin{table}[H]
+\centering
+\caption{Compact example of a generated KPI (excerpt)}
+\label{tab:kpi-example-compact}
+\begin{tabular}{p{0.28\textwidth} p{0.64\textwidth}}
+\toprule
+\textbf{Field} & \textbf{Example value (excerpt)} \\
+\midrule
+Category / Subcategory &
+Agrar \& Agrar Tech / \enquote{Farm-to-Fork} transparency \\
+Short-term indicator &
+Consumer scan rate per 100 units sold \\
+Short-term question &
+\enquote{Did you scan the code on your last purchase to view origin data?} \\
+Measurement / Unit &
+QR/NFC analytics over 30 days; scans per 100 units \\
+Long-term indicator &
+Share of transactions with at least one origin-data view \\
+SDG alignment &
+Primary: 12.8; Secondary: 9.c \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Human-in-the-Loop Evaluation}\label{sec:hitl}
+
+Generated KPIs and assessment forms are embedded in a human-in-the-loop workflow:
+
+\begin{itemize}
+    \item Domain experts review and adjust wording, units, and feasibility of data collection.
+    \item Stakeholders validate relevance and alignment with intended public value contributions.
+    \item Final KPIs are versioned and approved before they are used for data collection.
+\end{itemize}
+
+A simplified example of how expert feedback refines a KPI is shown in Table~\ref{tab:hitl-example}.
+
+\begin{table}[H]
+    \centering
+    \caption{Example of human-in-the-loop feedback and KPI refinement}
+    \label{tab:hitl-example}
+    \begin{tabular}{p{0.28\textwidth} p{0.32\textwidth} p{0.32\textwidth}}
+        \toprule
+        \textbf{Version} & \textbf{Description} & \textbf{Comment / Rationale} \\
+        \midrule
+        Original KPI &
+        \enquote{Increase the number of platform users.} &
+        Too generic; unclear target group and measurement definition. \\
+        \midrule
+        Expert feedback &
+        \enquote{Specify target group, baseline, target, and timeframe; clarify active vs.\ registered.} &
+        Enforces SMART formulation and improves linkage to theory of change. \\
+        \midrule
+        Refined KPI &
+        \enquote{Increase active monthly users among early-stage impact startups from 80 to 160 within 12 months.} &
+        Specific, measurable, and time-bound; focuses on meaningful usage. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_hitl_review_ui}
+    \caption{Prototype UI: review and commenting interface for KPI validation (TODO: replace with Figma export).}
+    \label{fig:todo_hitl_review_ui}
+\end{figure}
+
+\section{Integration with the Public Value Academy Platform}\label{sec:integration-platform}
+
+\begin{itemize}
+    \item Supports workshops and structured reflection around public value.
+    \item Embeds expert review and stakeholder feedback into KPI workflows.
+    \item Enables iterative improvement through versioned profiles, KPIs, and dashboards.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_platform_integration}
+    \caption{Platform integration: navigation and embedding of IMM artefact components (TODO: replace with Figma export).}
+    \label{fig:todo_platform_integration}
+\end{figure}
+
+\section{Ethical and Governance Considerations}\label{sec:ethical-governance}
+
+\begin{itemize}
+    \item GDPR-oriented handling of participant and project data (data minimisation, consent, access control).
+    \item Transparency through structured outputs, traceable mappings, and auditable revision logs.
+    \item Human oversight enforced in critical steps (profile validation, KPI approval, SDG alignment).
+\end{itemize}
+
+\section{Next Steps and Data Analysis}\label{sec:next-steps}
+
+To move from prototype to systematic evaluation, the following analysis steps are envisaged:
+
+\begin{itemize}
+    \item \textbf{Aggregation and cleaning:} deduplication, missing value handling, plausibility checks, and aggregation by project/cohort/time period.
+    \item \textbf{Quantitative analysis:} descriptive statistics and simple trend or pre--post comparisons; normalisation where appropriate (e.g.\ per beneficiary).
+    \item \textbf{Qualitative analysis:} NLP-supported thematic clustering combined with manual coding to identify recurring narratives and unintended effects.
+    \item \textbf{Public value integration:} mapping results onto public value dimensions with human-validated narrative summaries.
+\end{itemize}
+
+A scoring rubric can be used to improve interpretability for stakeholders (e.g.\ underperforming / on-track / exceeding expectations mapped to a 1--5 scale), with aggregation at the level of public value dimensions via weighted averages.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={rectangle, draw=black, rounded corners, fill=gray!10, minimum width=8cm, minimum height=1cm, align=center},
+    arrow/.style={->, thick}
+]
+\node[box] (pitchdeck) {Pitch Deck\\Parsing \& AI Extraction};
+\node[box, below=of pitchdeck] (profile) {Startup Profile\\(Pydantic Model)};
+\node[box, below=of profile] (kpi) {AI-Assisted\\KPI Generation};
+\node[box, below=of kpi] (data) {Data Collection\\(Target Groups)};
+\node[box, below=of data] (analysis) {Data Analysis\\Quantitative \& Qualitative Methods};
+\node[box, below=of analysis] (dashboard) {Impact Dashboard\\Stakeholder Views \& Metrics};
+\draw[arrow] (pitchdeck) -- (profile);
+\draw[arrow] (profile) -- (kpi);
+\draw[arrow] (kpi) -- (data);
+\draw[arrow] (data) -- (analysis);
+\draw[arrow] (analysis) -- (dashboard);
+\end{tikzpicture}
+\caption{End-to-end workflow: from pitch deck parsing to impact dashboard.}
+\label{fig:end-to-end-pipeline-vertical}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_dashboard_summary_view}
+    \caption{Dashboard mock-up: summary view (TODO: replace with Figma export).}
+    \label{fig:todo_dashboard_summary_view}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/todo_dashboard_kpi_detail_view}
+    \caption{Dashboard mock-up: KPI detail view with trends (TODO: replace with Figma export).}
+    \label{fig:todo_dashboard_kpi_detail_view}
+\end{figure}
+
+\section{Summary}\label{sec:artefact-summary}
+
+This chapter demonstrated that the AI-supported IMM artefact can (1) onboard new projects via automated pitch deck parsing, (2) structure project narratives and metadata into reusable schemas, (3) generate auditable KPI drafts aligned with impact frameworks, (4) embed human validation loops for quality and legitimacy, and (5) support reporting and reflection through dashboard-oriented outputs.
+    website="https://www.ecotrack.io",
+    project_beginning="2023-04-15",
+    turnover=250000,
+    profit=45000,
+    employers=6,
+    problem="Small and medium-sized companies lack accessible tools to "
+            "measure and optimize their environmental footprint.",
+    vision="A world where every business, regardless of size, can understand "
+           "and minimize its ecological impact.",
+    mission="Provide affordable, data-driven sustainability analytics to "
+            "empower companies on their path toward climate neutrality.",
+    solution="A SaaS platform combining automated data ingestion, carbon "
+             "footprint analytics, and actionable reduction insights.",
+    social_impact="Helps companies reduce emissions and operate more "
+                  "sustainably, contributing to national and EU climate goals.",
+    reason="Growing regulatory pressure and market demand for transparent "
+           "sustainability strategies.",
+    value_1="Transparency",
+    value_2="Sustainability",
+    value_3="Innovation",
+    target_group="Small and medium-sized companies in manufacturing and "
+                 "logistics."
+)
+\end{verbatim}
+
+This example illustrates the level of detail captured during onboarding and demonstrates how unstructured pitch deck content is transformed into a structured project profile.
+
+% TODO screenshot: structured project profile form / view
+
+
+\section{Indicator and KPI Generation}\label{sec:kpi-generation}
+
+Following onboarding, the IMM phase begins:
+
+\begin{itemize}
+    \item A pre-generated library of over 1{,}600 indicators serves as reference.
+    \item The function \texttt{gen\_k\_measurement\_kpi()} generates SMART KPIs for specific categories and subcategories.
     \item Each KPI contains short-term and long-term goals, measurement methods, units, survey questions, and justification.
-    \item Optional secondary goals created if multiple outcomes are detected in input text.
+    \item Optional secondary goals are created if multiple outcomes are detected in the input text.
 \end{itemize}
 
 \begin{figure}[H]
@@ -113,16 +518,97 @@ Following onboarding, the IMM phase begins:
     \label{fig:kpi-generation}
 \end{figure}
 
-\begin{verbatim}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/outcome_goals}
+    \caption{Screenshot of the KPI generation and editing interface, showing short-term and long-term fields.}
+    \label{fig:kpi_generation_ui}
+\end{figure}
+
+\begin{lstlisting}
 def gen_k_measurement_kpi(category: str, subcategory: str, k: int = 10):
     """
     Generate k distinct SMART IndicatorKPIs for a given category/subcategory using an LLM.
     """
     # Structured LLM output via API
     ...
-\end{verbatim}
+\end{lstlisting}
 
-\textbf{TODO:} Include one full example of generated KPI in appendix with short-term and long-term indicators.
+A complete example of a generated IndicatorKPI, as produced by this function for the category
+\textit{Environmental Impact} and subcategory \textit{Energy Efficiency}, is shown below. The structure follows the
+SMART logic and already includes fields for downstream impact reporting:
+
+\begin{lstlisting}
+example_kpi = {
+            "category": "Agrar & Agrar Tech",
+            "sub_category": "\"Farm-to-Fork\" Transparency",
+            "goal": [
+                "Consumers access product origin data"
+            ],
+            "short_term_goal_1": "Consumers scan traceability codes",
+            "short_term_indicator_1": "Consumer scan rate per 100 units sold",
+            "short_term_question_1": "Did you scan the code on your last purchase to view origin data?",
+            "type_of_short_term_question_1": "single_choice",
+            "answer_options_short_term_question_1": [
+                "Yes",
+                "No"
+            ],
+            "measurement_method_short_term_question_1": "Count unique consumer scan events from QR/NFC analytics over the last 30 days, divide by units sold for the same SKUs and period, multiply by 100.",
+            "unit_method_short_term_question_1": "scans per 100 units",
+            "justification_method_short_term_question_1": "Scanning a product code indicates access to origin data. Scan rate is a direct, low-cost proxy for transparency uptake using existing app or GS1 Digital Link analytics.",
+            "source_method_short_term_question_1": "GS1 Digital Link; ISO/IEC 18004 QR Code; IRIS+ Product/Service Users; SDG 12.8",
+            "long_term_goal_1": [
+                "Consumers view origin data during purchase decisions"
+            ],
+            "long_term_indicator_1": [
+                "Transactions with at least one origin data view share"
+            ],
+            "long_term_question_1": "How often do you view origin information when buying this product?",
+            "type_of_long_term_question_1": "single_choice",
+            "answer_options_long_term_question_1": [
+                "Never",
+                "Rarely",
+                "Sometimes",
+                "Often",
+                "Always"
+            ],
+            "measurement_method_long_term_question_1": "Link scan events to sales by batch ID within a 24–72 hour window to estimate the share of transactions with at least one origin data view.",
+            "unit_method_long_term_question_1": "percent of transactions",
+            "justification_method_long_term_question_1": "Viewing origin information during the shopping journey reflects meaningful transparency use beyond curiosity scans.",
+            "source_method_long_term_question_1": "GS1 EPCIS 2.0; ISO 22005 Traceability in feed and food chain; SDG 12.8",
+            "short_term_goal_2": [],
+            "short_term_indicator_2": [],
+            "short_term_question_2": "",
+            "type_of_short_term_question_2": "single_choice",
+            "answer_options_short_term_question_2": [],
+            "measurement_method_short_term_question_2": "",
+            "unit_method_short_term_question_2": "",
+            "justification_method_short_term_question_2": "",
+            "source_method_short_term_question_2": "",
+            "long_term_goal_2": [],
+            "long_term_indicator_2": [],
+            "long_term_question_2": "",
+            "type_of_long_term_question_2": "single_choice",
+            "answer_options_long_term_question_2": [],
+            "measurement_method_long_term_question_2": "",
+            "unit_method_long_term_question_2": "",
+            "justification_method_long_term_question_2": "",
+            "source_method_long_term_question_2": "",
+            "sdg_target_1": "12.8 Promote information for sustainable lifestyles",
+            "sdg_target_2": "9.c Access to ICT",
+            "sdg_target_3": "",
+            "question": "",
+            "type_of_question": "single_choice",
+            "answer_options": [],
+            "measurement_method": "",
+            "unit": "",
+            "justification": "",
+            "source": ""
+        }
+\end{lstlisting}
+
+In the final thesis, this type of KPI instance can be placed in the appendix as a reference example for readers and practitioners who wish to understand the exact structure produced by the artefact.
 
 \section{Human-in-the-Loop Evaluation}\label{sec:hitl}
 
@@ -134,7 +620,36 @@ Generated KPIs and assessment forms are:
     \item Iteratively refined for alignment with project objectives and public value principles.
 \end{itemize}
 
-\textbf{TODO:} Add example of human-in-the-loop feedback affecting KPI refinement.
+A simplified example of how human-in-the-loop feedback affects KPI refinement is shown in Table~\ref{tab:hitl-example}.
+In this example, an initially broad KPI is made more specific, measurable and public-value oriented based on expert and stakeholder input.
+
+\begin{table}[H]
+    \centering
+    \caption{Example of human-in-the-loop feedback and KPI refinement}
+    \label{tab:hitl-example}
+    \begin{tabular}{p{0.28\textwidth} p{0.32\textwidth} p{0.32\textwidth}}
+        \toprule
+        \textbf{Version} & \textbf{Description} & \textbf{Comment / Rationale} \\
+        \midrule
+        Original KPI &
+        ``Increase the number of platform users.'' &
+        Stakeholders considered this too generic and insufficiently connected to the intended public value contribution. No baseline or target group was specified. \\
+        \midrule
+        Expert feedback &
+        ``Specify the target group (e.g.\ early-stage impact startups), include a numerical baseline and target, and define a timeframe. Clarify whether active or registered users are meant.'' &
+        The expert feedback emphasised the need for a SMART formulation and clearer linkage to the project's theory of change. \\
+        \midrule
+        Refined KPI (accepted) &
+        ``Increase the number of \emph{active monthly users} among early-stage impact startups from 80 to 160 within 12 months after launch of the platform.'' &
+        The refined KPI is specific, measurable and time-bound. It focuses on active usage (behavioural change) rather than mere registration and is directly aligned with the intended public value of strengthening the impact startup ecosystem. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% TODO screenshot: human-in-the-loop review / comment interface
+
+
+This illustrates how the artefact embeds human oversight: the LLM proposes an initial KPI, which is then systematically adapted based on qualitative expert feedback and stakeholder perspectives before it is finalised and used for assessment.
 
 \section{Integration with the Public Value Academy Platform}\label{sec:integration-platform}
 
@@ -144,6 +659,11 @@ Generated KPIs and assessment forms are:
     \item Enables iterative improvement of AI-supported tools.
 \end{itemize}
 
+The IMM artefact is designed as a service component within the Public Value Academy platform. Structured profiles and KPIs can be reused across workshops and learning formats, and dashboards provide a shared basis for discussion between project teams, coaches and investors.
+
+% TODO screenshot: integration / navigation within Public Value Academy platform
+
+
 \section{Ethical and Governance Considerations}\label{sec:ethical-governance}
 
 \begin{itemize}
@@ -152,19 +672,49 @@ Generated KPIs and assessment forms are:
     \item Human oversight enforced in all critical stages.
 \end{itemize}
 
+In addition to technical measures, the artefact incorporates transparency documentation (e.g.\ model cards and data flow diagrams) and explicit consent mechanisms for participants whose responses feed into the impact measurement process.
+
 \section{Next Steps and Data Analysis}\label{sec:next-steps}
 
+To move from prototype to systematic evaluation and learning, the following methodological steps for analysing collected KPI and survey data are envisaged:
+
 \begin{itemize}
-    \item \textbf{TODO:} Define the methodology for analyzing collected KPI and survey data, including:
-        \begin{itemize}
-            \item Aggregation and cleaning of responses from target groups,
-            \item Statistical analysis for quantitative indicators,
-            \item NLP or thematic analysis for qualitative inputs,
-            \item Integration of findings with public value dimensions.
-        \end{itemize}
-    \item \textbf{TODO:} Determine thresholds or scoring rubric for KPI performance and public value metrics.
-    \item \textbf{TODO:} Include mock-up or example of impact dashboard.
+    \item \textbf{Aggregation and cleaning of responses from target groups:}
+    Raw responses from online surveys and platform interactions are first cleaned (removal of duplicates, handling of missing values, basic plausibility checks) and aggregated at the level of projects, cohorts and time periods. This ensures that subsequent analyses are based on a consistent and reproducible dataset.
+
+    \item \textbf{Statistical analysis for quantitative indicators:}
+    For numeric KPIs (e.g.\ energy consumption per workspace, number of active users, share of underrepresented groups), descriptive statistics (means, medians, standard deviations) and simple inferential methods (e.g.\ pre--post comparisons, trend analysis over time) are applied. Where appropriate, normalisation procedures (e.g.\ per beneficiary, per euro invested) are used to improve comparability across projects.
+
+    \item \textbf{NLP or thematic analysis for qualitative inputs:}
+    Open-ended survey responses and qualitative feedback from workshops are analysed using basic natural language processing (NLP) tools (e.g.\ keyword extraction, clustering of frequently mentioned themes) combined with manual coding. This supports the identification of recurring narratives, perceived benefits and unintended side effects that are not captured by numeric indicators alone.
+
+    \item \textbf{Integration of findings with public value dimensions:}
+    Both quantitative and qualitative findings are mapped onto selected public value dimensions (e.g.\ equity, sustainability, participation, innovation). For each dimension, a short narrative summary is generated (assisted by the LLM but validated by humans) describing how the project contributes to, or potentially conflicts with, that dimension. This strengthens the alignment between operational KPIs and the broader normative framework.
 \end{itemize}
+
+On top of the analytical procedures, thresholds and a scoring rubric are required in order to make results interpretable for different stakeholders:
+
+\begin{itemize}
+    \item \textbf{Thresholds and scoring rubric for KPI performance and public value metrics:}
+    For each KPI, performance bands are defined (e.g.\ \emph{underperforming}, \emph{on track}, \emph{exceeding expectations}) based on relative improvement compared to baseline (for instance, $<10\%$, $10$--$30\%$, $>30\%$ improvement).
+    These bands are then translated into a standardised 1--5 score. At the level of public value dimensions, scores from relevant KPIs are aggregated (e.g.\ via weighted averages) to obtain an overall dimension score. This allows projects to be compared over time and across cohorts while keeping the underlying assumptions explicit.
+
+    \item \textbf{Impact dashboard mock-up:}
+    The impact dashboard is conceived as a web-based interface that displays:
+    \begin{itemize}
+        \item a \emph{summary view} with overall public value scores per project (e.g.\ radar chart or bar chart),
+        \item a \emph{KPI detail view} showing trends over time (line charts) and numerical targets vs.\ actuals,
+        \item filters for time period, cohort, target group and public value dimension,
+        \item qualitative excerpts (e.g.\ representative quotes) linked to specific KPIs or dimensions.
+    \end{itemize}
+    The dashboard is not only a reporting tool but also a starting point for reflection in workshops, enabling users to drill down from aggregate scores to the underlying data and narratives.
+\end{itemize}
+
+% TODO screenshot: impact dashboard (summary view)
+
+
+% TODO screenshot: impact dashboard (KPI detail view)
+
 
 \begin{figure}[H]
 \centering
@@ -179,8 +729,8 @@ Generated KPIs and assessment forms are:
 \node[box, below=of pitchdeck] (profile) {Startup Profile\\(Pydantic Model)};
 \node[box, below=of profile] (kpi) {AI-Assisted\\KPI Generation};
 \node[box, below=of kpi] (data) {Data Collection\\(Target Groups)};
-\node[box, below=of data] (analysis) {Data Analysis\\Quantitative \& Qualitative \\ \textbf{TODO: Define methods}};
-\node[box, below=of analysis] (dashboard) {Impact Dashboard\\for Stakeholders \\ \textbf{TODO: Mock-up / Metrics}};
+\node[box, below=of data] (analysis) {Data Analysis\\Quantitative \& Qualitative Methods};
+\node[box, below=of analysis] (dashboard) {Impact Dashboard\\for Stakeholders\\Key Metrics \& Visualisations};
 
 % Arrows
 \draw[arrow] (pitchdeck) -- (profile);
@@ -190,7 +740,7 @@ Generated KPIs and assessment forms are:
 \draw[arrow] (analysis) -- (dashboard);
 
 \end{tikzpicture}
-\caption{End-to-End Vertical Workflow: From Pitch Deck Parsing to Impact Dashboard}
+\caption{End-to-end vertical workflow: from pitch deck parsing to impact dashboard.}
 \label{fig:end-to-end-pipeline-vertical}
 \end{figure}
 
@@ -199,11 +749,12 @@ Generated KPIs and assessment forms are:
 This chapter demonstrates that the AI-supported IMM artefact can:
 
 \begin{itemize}
-    \item Efficiently onboard new projects using automated pitch deck parsing.
-    \item Generate structured project profiles with AI-assisted data extraction.
-    \item Produce actionable KPIs aligned with SDGs and recognized impact frameworks.
-    \item Maintain a human-in-the-loop workflow for quality assurance, interpretability, and stakeholder validation.
-    \item Feed collected data into a dashboard for actionable insights for impact investors.
+    \item efficiently onboard new projects using automated pitch deck parsing,
+    \item generate structured project profiles with AI-assisted data extraction,
+    \item produce actionable KPIs aligned with SDGs and recognised impact frameworks,
+    \item maintain a human-in-the-loop workflow for quality assurance, interpretability and stakeholder validation,
+    \item and feed collected data into a dashboard for actionable insights for impact investors and project teams.
 \end{itemize}
 
-\textbf{TODO:} Fill in the analysis methods, dashboard design, and examples before final evaluation chapter.
+In addition, the chapter has outlined concrete methods for quantitative and qualitative data analysis, proposed a scoring rubric for KPI and public value assessment, provided examples of generated KPIs and expert feedback, and sketched the design of an impact dashboard.
+Together, these elements show how the artefact can serve as a practical bridge between AI-supported analytics and normative public value deliberation.

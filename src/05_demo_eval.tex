@@ -17,31 +17,53 @@ The demonstration highlights the artefact's capacity to augment human judgment w
 
 \section{Narrative Clustering Results}\label{sec:results-clustering}
 
-Narratives from over 20 public innovation cases were embedded using \texttt{text-embedding-ada-002}, reduced via UMAP, and clustered with HDBSCAN.
+Narratives from over 20 public innovation cases were embedded using an OpenAI text-embedding model (e.g.\ \texttt{text-embedding-ada-002} or a comparable sentence embedding model), reduced via UMAP, and clustered with HDBSCAN.
 
 \subsection*{Key Observations}
 
 \begin{itemize}
     \item Clusters revealed cross-cutting themes such as citizen participation, data ethics, and local climate action.  
-    \item GPT-4 summarization provided interpretable labels for stakeholders.  
+    \item LLM-based summarisation was used to generate interpretable cluster labels for stakeholders.
     \item Clustering facilitated structured overviews of diverse inputs, supporting reflection and discussion.  
 \end{itemize}
 
-\textbf{TODO:} Include UMAP figure and example cluster summary table.
+\subsection{UMAP-Based Clustering of Qualitative Responses}\label{subsec:umap-clustering}
+
+To support exploratory analysis of qualitative survey responses, responses can be embedded (e.g.\ using sentence embeddings) and projected into two dimensions using UMAP.
+This enables visual inspection of response similarity and provides a basis for clustering. Clusters are then summarised using short labels and representative example statements.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/umap_plot}
+    \caption{UMAP projection of qualitative responses with cluster assignments.}
+    \label{fig:umap_plot}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/cluster_summary_table}
+    \caption{Example cluster summary table derived from UMAP + clustering.}
+    \label{fig:cluster_summary_table}
+\end{figure}
 
 \section{SDG Mapping Results}\label{sec:results-sdg}
 
 The SDG mapping component semantically aligned problem statements with relevant goals:
 
 \begin{itemize}
-    \item Classifier accuracy: 85\% alignment with expected SDG tags (manual benchmark).  
-    \item GPT-based justifications enhanced transparency and trust.  
+    \item In a small manual benchmark, the mapping agreed with expected SDG tags in approximately 85\% of cases.
+    \item LLM-based justifications enhanced transparency and trust by making the reasoning behind each SDG assignment explicit.
 \end{itemize}
 
 \textbf{Example:} 
 \emph{“This project addresses SDG 11 (Sustainable Cities and Communities) by increasing civic data accessibility for participatory urban governance.”}
 
-\textbf{TODO:} Add table with sample SDG mappings and justifications.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../fig/sdg_mapping_table}
+    \caption{Example SDG mapping table.}
+    \label{fig:sdg_mapping_table}
+\end{figure}
 
 \section{KPI Derivation Pipeline Results}\label{sec:results-kpi}
 
@@ -63,7 +85,32 @@ The LangGraph pipeline was applied to multiple pitch decks and synthetic problem
     \item Audit loops proved essential for maintaining consistency and alignment.  
 \end{itemize}
 
-\textbf{TODO:} Include pipeline flow diagram and example output tables.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.25cm,
+    box/.style={rectangle, draw=black, rounded corners, fill=gray!10, minimum width=12cm, minimum height=0.9cm, align=center},
+    arrow/.style={->, thick}
+]
+\node[box] (input) {Inputs: Pitch deck (PDF) + project metadata + indicator library};
+\node[box, below=of input] (parse) {1) PDF parsing \& extraction (PyPDF) + AI cleanup (OCR/scramble correction)};
+\node[box, below=of parse] (struct) {2) Structuring (Pydantic models): Profile + extracted entities + impact dimensions};
+\node[box, below=of struct] (kpi) {3) KPI generation (LLM / LangGraph): SMART KPIs + questions + units + methods};
+\node[box, below=of kpi] (sdg) {4) SDG/Framework alignment: sdg\_target\_1..3 + source references + justifications};
+\node[box, below=of sdg] (hitl) {5) Human-in-the-loop review: expert edits + acceptance + versioning};
+\node[box, below=of hitl] (deploy) {6) Outputs: KPI forms + dashboards + export tables (CSV/JSON) + workshop artefacts};
+
+\draw[arrow] (input) -- (parse);
+\draw[arrow] (parse) -- (struct);
+\draw[arrow] (struct) -- (kpi);
+\draw[arrow] (kpi) -- (sdg);
+\draw[arrow] (sdg) -- (hitl);
+\draw[arrow] (hitl) -- (deploy);
+\end{tikzpicture}
+\caption{Pipeline flow diagram of the AI-supported IMM artefact from pitch deck ingestion to validated KPI outputs.}
+\label{fig:imm_pipeline_flow}
+\end{figure}
 
 \section{Human-in-the-Loop Feedback}\label{sec:results-hitl}
 
@@ -83,11 +130,46 @@ Each pipeline run logged \textbf{decision paths and rationales}, supporting audi
 
 \begin{itemize}
     \item Justifications captured at SDG mapping, indicator selection, and KPI generation.  
-    \item SHAP and GPT-based explanations provided interpretable insights.  
+    \item SHAP-inspired and GPT-based explanations were used to support interpretability of selected model outputs.
     \item Supports accountability and trust in AI-supported evaluation processes.  
 \end{itemize}
 
-\textbf{TODO:} Include example trace schematic.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.25cm,
+    box/.style={rectangle, rounded corners, draw=black, fill=gray!10, minimum width=12.2cm, minimum height=1.0cm, align=left},
+    smallbox/.style={rectangle, rounded corners, draw=black, fill=gray!6, minimum width=12.2cm, minimum height=0.9cm, align=left},
+    arrow/.style={->, thick}
+]
+\node[box] (product) {\textbf{Physical product / package}\\
+\textit{Identifier:} GTIN + batch/lot (and optionally serial) \quad \textit{Carrier:} QR / NFC};
+
+\node[box, below=of product] (scan) {\textbf{Consumer action}\\
+Scan QR/NFC $\rightarrow$ resolve Digital Link URL (e.g.\ GS1 Digital Link)};
+
+\node[smallbox, below=of scan] (resolve) {\textbf{Resolution service (Digital Link)}\\
+Maps identifier $\rightarrow$ endpoints (origin page, certificates, recall info, trace events)};
+
+\node[box, below=of resolve] (events) {\textbf{Trace data layer (example)}\\
+EPCIS events (ObjectEvent / TransformationEvent): farm $\rightarrow$ processor $\rightarrow$ logistics $\rightarrow$ retailer\\
+\textit{Key fields:} eventTime, bizStep, disposition, readPoint, bizLocation, lot/batch};
+
+\node[smallbox, below=of events] (analytics) {\textbf{Analytics \& KPI extraction}\\
+Aggregate scan events + link to sales window (24--72h) $\rightarrow$ KPI inputs (scan rate, view share, coverage)};
+
+\node[box, below=of analytics] (outputs) {\textbf{Outputs to IMM artefact}\\
+Validated KPI forms + SDG mappings + dashboard metrics (trend lines, target vs.\ actual, cluster insights)};
+
+\draw[arrow] (product) -- (scan);
+\draw[arrow] (scan) -- (resolve);
+\draw[arrow] (resolve) -- (events);
+\draw[arrow] (events) -- (analytics);
+\draw[arrow] (analytics) -- (outputs);
+\end{tikzpicture}
+\caption{Example trace schematic: from a physical product identifier (QR/NFC) to trace events and KPI-ready outputs.}
+\label{fig:trace_schematic_example}
+\end{figure}
 
 \section{Evaluation Summary}\label{sec:results-summary}
 
